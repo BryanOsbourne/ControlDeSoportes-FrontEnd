@@ -1,0 +1,9 @@
+<mat-card class="mt-4">
+    <mat-card-content>
+        <h2><a routerLink="/Dashboard">Dashboard </a> / <a routerLink="/Dashboard/ControlDeLlamadas">Control De
+                Llamadas</a> /
+            Registro De Llamadas </h2>
+    </mat-card-content>
+</mat-card>
+<app-formulario-de-llamadas (llamadasEncontradas)="supportTable.updateTable($event)"></app-formulario-de-llamadas>
+<app-tabla-de-llamadas-por-cliente #supportTable></app-tabla-de-llamadas-por-cliente>

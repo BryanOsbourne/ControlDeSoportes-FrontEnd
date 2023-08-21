@@ -1,0 +1,22 @@
+
+table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.mat-mdc-form-field {
+    font-size: 17px;
+    width: 100%;
+}
+
+th {
+    width: 10%;
+}
+
+.mat-mdc-select {
+    font-size: 17px;
+}
+
+.border{
+    border-radius: 30px;
+}

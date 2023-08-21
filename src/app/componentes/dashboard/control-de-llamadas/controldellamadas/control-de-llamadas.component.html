@@ -1,0 +1,9 @@
+<div class="container-fluid">
+    <mat-card class="mt-4">
+        <mat-card-content>
+            <h2><a routerLink="/Dashboard">Dashboard </a> / Control De Llamadas</h2>
+        </mat-card-content>
+    </mat-card>
+    <app-filtro-de-llamadas (llamadasFiltradas)="tablaLlamadas.onLlamadasFiltradas($event)" (campoDeFiltro)="tablaLlamadas.onCampoFiltrado($event)"></app-filtro-de-llamadas>
+    <app-tabla-de-llamadas #tablaLlamadas></app-tabla-de-llamadas>
+</div>

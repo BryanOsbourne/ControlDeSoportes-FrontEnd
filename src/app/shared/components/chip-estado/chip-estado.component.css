@@ -1,0 +1,17 @@
+.trueState {
+    background-color: #C4F791 !important;
+}
+
+.trueState img {
+    height: 20px;
+    width: 20px;
+}
+
+.falseState {
+    background-color: #F79191 !important;
+}
+
+.falseState img {
+    height: 20px;
+    width: 20px;
+}

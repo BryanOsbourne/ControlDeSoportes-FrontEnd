@@ -1,0 +1,36 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <!--Buttons left-->
+    <div>
+      <button mat-icon-button aria-hidden="false" (click)="toggleSideBar()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <em><strong>Ticket Trace</strong></em>
+    </div>
+    <span class="spacer"></span>
+    <!--Buttons right-->
+    <div>
+      <button mat-icon-button>
+        <mat-icon matBadge={{notifications}} aria-hidden="false" matBadgeColor="warn">notifications_active</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="Perfil" routerLink="Perfil">
+          <mat-icon>account_circle</mat-icon>
+          <span>Mi Perfil</span>
+        </button>
+        <button mat-menu-item disabled="true">
+          <mat-icon>settings</mat-icon>
+          <span>Configuracion</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>power_settings_new</mat-icon>
+          <span>Salir</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

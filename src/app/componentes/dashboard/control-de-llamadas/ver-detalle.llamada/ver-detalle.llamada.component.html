@@ -1,0 +1,143 @@
+<div class="container-fluid">
+
+    <mat-card class="mt-4">
+        <mat-card-content>
+            <h2><a routerLink="/Dashboard">Dashboard </a> / <a routerLink="/Dashboard/ControlDeLlamadas">Control De
+                    Llamadas</a> /
+                Historial De Seguimientos </h2>
+        </mat-card-content>
+    </mat-card>
+
+    <div class="border rounded-5 mt-4 p-4">
+        <form class="row" [formGroup]="formulario">
+            <h2 class="mb-4">Filtro De Historial</h2>
+            <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Desde</mat-label>
+                    <input matInput [matDatepicker]="Desde" formControlName="fechaDesde">
+                    <mat-datepicker-toggle matIconSuffix [for]="Desde"></mat-datepicker-toggle>
+                    <mat-datepicker #Desde></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Hasta</mat-label>
+                    <input matInput [matDatepicker]="Hasta" formControlName="fechaHasta">
+                    <mat-datepicker-toggle matIconSuffix [for]="Hasta"></mat-datepicker-toggle>
+                    <mat-datepicker #Hasta></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Asesor:</mat-label>
+                    <mat-select formControlName="asesor">
+                        <mat-option value="0">Todos</mat-option>
+                        <mat-option *ngFor="let asesor of asesores"
+                            [value]="asesor.id">{{asesor.primerNombre}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Filtro</mat-label>
+                    <input matInput (keyup)="filtrarLlamadas($event)" #input autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-toolbar>
+                    <span class="example-spacer"></span>
+                    <button class="btn btn-primary" (click)="buscarSegunCriterios()">
+                        Filtrar
+                    </button>
+                </mat-toolbar>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-2 mt-1">
+                <mat-toolbar>
+                    <button mat-raised-button color="accent" (click)="irAtras()">
+                        Atras
+                    </button>
+                </mat-toolbar>
+            </div>
+            <div class="col-10 mt-1">
+                <mat-toolbar>
+                    <span class="example-spacer"></span>
+                    <button mat-raised-button color="primary" (click)="agregarSeguimiento()">
+                        + Agregar Seguimiento
+                    </button>
+                </mat-toolbar>
+            </div>
+        </div>
+    </div>
+
+    <!--Inicio de tabla-->
+    <div class="mat-elevation-z10 mt-5">
+        <table mat-table [dataSource]="datasource">
+
+            <ng-container matColumnDef="Fecha/Hora">
+                <th mat-header-cell *matHeaderCellDef> Fecha/Hora </th>
+                <td mat-cell *matCellDef="let element"> {{formatearFecha(element.fechaInicio)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Asesor">
+                <th mat-header-cell *matHeaderCellDef> Asesor </th>
+                <td mat-cell *matCellDef="let element"> {{element.asesor.primerNombre}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Codigo">
+                <th mat-header-cell *matHeaderCellDef> Codigo </th>
+                <td mat-cell *matCellDef="let element"> {{element.cliente.codigo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Razon Social">
+                <th mat-header-cell *matHeaderCellDef> Razon Social </th>
+                <td mat-cell *matCellDef="let element"> {{element.cliente.razonSocial}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Contacto">
+                <th mat-header-cell *matHeaderCellDef> Contacto </th>
+                <td mat-cell *matCellDef="let element"> {{element.contacto}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Telefono">
+                <th mat-header-cell *matHeaderCellDef> Telefono </th>
+                <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Tipo De Soporte">
+                <th mat-header-cell *matHeaderCellDef> Tipo De Soporte </th>
+                <td mat-cell *matCellDef="let element"> {{element.tipoSoporte}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Estado">
+                <th mat-header-cell *matHeaderCellDef> Estado </th>
+                <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Ver">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="row">
+                        <div class="col-6">
+                            <button mat-mini-fab color="accent" (click)="verDetalles(element.id)"
+                                matTooltip="Ver Detalles">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button mat-mini-fab color="warn" matTooltip="Eliminar Llamada"
+                                (click)="eliminarLog(element.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+</div>

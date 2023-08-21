@@ -1,0 +1,23 @@
+.mat-mdc-form-field {
+    font-size: 17px;
+    width: 100%;
+}
+
+.mat-mdc-select {
+    font-size: 17px;
+}
+
+.tab-icon {
+    margin-right: 8px;
+}
+
+.box-card-rigth {
+    height: 316px;
+}
+
+.profile-image {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    object-fit: cover;
+}

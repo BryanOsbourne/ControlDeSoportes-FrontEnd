@@ -1,0 +1,11 @@
+<button mat-button *ngFor="let menuItem of menu" [matMenuTriggerFor]="afterMenu">
+    {{menuItem.header}}
+    <mat-menu #afterMenu="matMenu" xPosition="after">
+        <div *ngFor="let subMenu of menuItem.submenu">
+            <button mat-menu-item [routerLink]="subMenu.url">
+              <mat-icon>{{subMenu.icon}}</mat-icon>
+              <span>{{subMenu.descripcion}}</span>
+            </button>
+          </div>
+    </mat-menu>
+</button>

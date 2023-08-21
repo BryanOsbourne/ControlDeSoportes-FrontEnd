@@ -1,0 +1,28 @@
+<div class="row mt-3">
+    <div class="col-lg-12">
+        <button mat-raised-button style=" background-color: #F7F391;" routerLink="/Dashboard">
+            <img class="btn-icon" src="../../../../../assets/icons/atras.png" alt="atras.png">
+            Volver
+        </button>
+    </div>
+</div>
+<mat-card class="row border rounded-5 mt-3 ms-1 me-1 p-3">
+    <mat-card-header>
+        <mat-card-title>Asesores</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="col-md-12 mt-3 d-flex flex-direction-row">
+        <button class="col-xl-2 me-4" mat-raised-button style="background-color: #C4F791;" routerLink="AgregarAsesor">
+            <img class="btn-icon" src="../../../../../assets/icons/add.png" alt="add.png">
+            Nuevo
+        </button>
+        <button class="col-xl-2 me-4" mat-raised-button style="background-color: #91E4F7;" (click)="updateTable()">
+            <img class="btn-icon" src="../../../../../assets/icons/boton-actualizar.png" alt="boton-actualizar.png">
+            Actualizar
+        </button>
+    </mat-card-content>
+    <mat-form-field appearance="fill" class="col-md-12 mt-3">
+        <mat-label>Filtro</mat-label>
+        <input matInput (keyup)="agentFilter($event)" #input autocomplete="off">
+    </mat-form-field>
+</mat-card>

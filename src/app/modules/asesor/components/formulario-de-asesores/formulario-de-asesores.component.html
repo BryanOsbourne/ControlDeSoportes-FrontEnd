@@ -1,0 +1,169 @@
+<div class="row mt-2">
+    <div class="col-xl-6 mt-3">
+        <mat-card class="border rounded-4 p-4">
+
+            <mat-card-header *ngIf="this.formGroup.value.id">
+                <mat-card-title>
+                    <img class="profile-image" [src]="this.formGroup.value.photo" alt="perfil.png">
+                    {{this.formGroup.value.firstName + ' ' + this.formGroup.value.lastName}}
+                    <mat-card-subtitle>{{this.formGroup.value.role}}</mat-card-subtitle>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-header *ngIf="!this.formGroup.value.id">
+                <mat-card-title>
+                    <img class="profile-image"
+                        src="http://localhost:8080/v1/app-ticket-trace/files/userPhoto/userdefault.png"
+                        alt="perfil.png">
+                    Ingrese los datos del agente
+                    <mat-card-subtitle>Nuevo Registro</mat-card-subtitle>
+                </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+
+                <mat-slide-toggle class="mb-3" color="warn" (change)=" unlockForm()">
+                    {{isBlocked ? 'Campos Habilitados':'Campos Deshabilitados'}}
+                </mat-slide-toggle>
+
+                <form class="row" [formGroup]="formGroup">
+
+                    <input type="hidden" formControlName="id">
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Username</mat-label>
+                            <input matInput autocomplete="off" formControlName="username" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Rol:</mat-label>
+                            <mat-select formControlName="role">
+                                <mat-option value="ADMINISTRADOR" [disabled]="!isBlocked">Administrador</mat-option>
+                                <mat-option value="USUARIO" [disabled]="!isBlocked">Usuario</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Primer Nombre</mat-label>
+                            <input matInput autocomplete="off" formControlName="firstName" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Segundo Nombre</mat-label>
+                            <input matInput autocomplete="off" formControlName="secondName" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Primer Apellido</mat-label>
+                            <input matInput autocomplete="off" formControlName="lastName" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Segundo Apellido</mat-label>
+                            <input matInput autocomplete="off" formControlName="secondSurname" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Tipo Identificacion:</mat-label>
+                            <mat-select formControlName="idType">
+                                <mat-option value="Cedula" [disabled]="!isBlocked">Cedula</mat-option>
+                                <mat-option value="NIT" [disabled]="!isBlocked">Nit</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Numero Identificacion</mat-label>
+                            <input type="number" matInput autocomplete="off" formControlName="ccNit"
+                                [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-8">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input matInput autocomplete="off" formControlName="email" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-4">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Estado:</mat-label>
+                            <mat-select formControlName="state">
+                                <mat-option [value]="true" [disabled]="!isBlocked">Activo</mat-option>
+                                <mat-option [value]="false" [disabled]="!isBlocked">Desactivado</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="col-xl-6 mt-3">
+        <div class="row">
+            <div class="card-right col-xxl-12">
+                <mat-card class="border rounded-4 p-3">
+                    <mat-card-header>
+                        <mat-card-title>Capacitaciones</mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="card-right col-xxl-12 mt-3">
+                <mat-card class="border rounded-4 p-3">
+                    <mat-card-header>
+                        <mat-card-title>Actualizaciones</mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="card-right col-xxl-12 mt-3">
+                <mat-card class="border rounded-4 p-3">
+                    <mat-card-header>
+                        <mat-card-title>Programaciones</mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-2 mt-1">
+            <button mat-raised-button style=" background-color: #F7F391;" routerLink="/Dashboard/Asesores">
+                <img class="btn-icon" src="../../../../../assets/icons/atras.png" alt="atras.png">
+                Atras
+            </button>
+        </div>
+        <div class="col-10 mt-1 d-flex justify-content-end">
+            <button mat-raised-button style="background-color: #C4F791;" (click)="openConfirmationDialog()"
+                [disabled]="!formGroup.valid">
+                <img class="btn-icon" src="../../../../../assets/icons/Activo.png" alt="add.png">
+                Registrar
+            </button>
+        </div>
+    </div>
+</div>

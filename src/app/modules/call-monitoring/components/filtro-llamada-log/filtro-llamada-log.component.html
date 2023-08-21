@@ -1,0 +1,64 @@
+<mat-card class="border rounded-4 mt-4 p-4">
+    <mat-card-header>
+        <mat-card-title class="mb-4">Historial</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="row" [formGroup]="formGroup">
+            <div class="col-xxl-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Desde</mat-label>
+                    <input matInput [matDatepicker]="Desde" formControlName="startDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="Desde"></mat-datepicker-toggle>
+                    <mat-datepicker #Desde></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-xxl-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Hasta</mat-label>
+                    <input matInput [matDatepicker]="Hasta" formControlName="endDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="Hasta"></mat-datepicker-toggle>
+                    <mat-datepicker #Hasta></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-xxl-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Asesor:</mat-label>
+                    <mat-select formControlName="agent">
+                        <mat-option value={{0}}>Todos</mat-option>
+                        <mat-option *ngFor="let agent of agents"
+                            [value]="agent.id">{{agent.firstName}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-xxl-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Filtro</mat-label>
+                    <input matInput (keyup)="filterSupport($event)" #input autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-xxl-2 p-2">
+                <button mat-raised-button style="background-color: #91E4F7; width: 100%;"
+                    (click)="findByCriterias()">
+                    <img class="btn-icon" src="../../../../../assets/icons/boton-actualizar.png"
+                        alt="boton-actualizar.png">
+                    Filtrar
+                </button>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-2 mt-1">
+                <button mat-raised-button style="background-color: #F7F391;" routerLink="/Dashboard/ControlDeLlamadas">
+                    <img class="btn-icon" src="../../../../../assets/icons/atras.png" alt="atras.png">
+                    Atras
+                </button>
+            </div>
+            <div class="col-10 mt-1 d-flex justify-content-end">
+                <button mat-raised-button style="background-color: #C4F791;" routerLink="AgregarSeguimiento">
+                    <img class="btn-icon" src="../../../../../assets/icons/add.png" alt="add.png">
+                    Agregar Seguimiento
+                </button>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <mat-card style="margin-top: 30px;">
+        <mat-card-content>
+            <h2><a routerLink="/Dashboard">Dashboard </a> / Reportes</h2>
+        </mat-card-content>
+    </mat-card>
+
+    <div class="border border-4 mt-4 p-4">
+        <mat-tab-group>
+            <mat-tab label="Llamadas">
+                <div class="mat-elevation-z10 mt-5">
+                    <h2 class="mb-4">Informe De Llamadas</h2>
+                    <mat-form-field class="m-4" appearance="outline">
+                        <mat-label>Asesor</mat-label>
+                        <mat-select>
+                            <mat-option value="1">Todos</mat-option>
+                            <mat-option *ngFor="let asesor of asesores"
+                                [value]="asesor">{{asesor.primerNombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Cliente</mat-label>
+                        <mat-select>
+                            <mat-option value="1">Todos</mat-option>
+                            <mat-option *ngFor="let cliente of clientes"
+                                [value]="cliente">{{cliente.codigo}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-tab>
+            <mat-tab label="Clientes"> Content 2 </mat-tab>
+            <mat-tab label="Asesores"> Content 3 </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

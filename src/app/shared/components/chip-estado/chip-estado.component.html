@@ -1,0 +1,21 @@
+<!--Supports-->
+<mat-chip *ngIf="stateSupport === 'Finalizado';" class="trueState" selected>
+    <img matChipAvatar src="../../../../../assets/icons/Activo.png" alt="Activo.png" />
+    Finalizado
+</mat-chip>
+
+<mat-chip *ngIf="stateSupport === 'Pendiente';" class="falseState" selected>
+    <img matChipAvatar src="../../../../../assets/icons/Inactivo.png" alt="Inactivo.png" />
+    Pendiente
+</mat-chip>
+
+<!--Entitys-->
+<mat-chip *ngIf="stateEntity;" class="trueState" selected>
+    <img matChipAvatar src="../../../../../assets/icons/Activo.png" alt="Activo.png" />
+    Activo
+</mat-chip>
+
+<mat-chip *ngIf="stateEntity === false" class="falseState" selected>
+    <img matChipAvatar src="../../../../../assets/icons/Inactivo.png" alt="Inactivo.png" />
+    Inactivo
+</mat-chip>

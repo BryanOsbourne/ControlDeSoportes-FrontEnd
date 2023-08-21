@@ -1,0 +1,29 @@
+<mat-drawer-container autosize>
+  <mat-drawer #drawer [opened]="sideBarOpen" mode="side">
+    <mat-nav-list>
+      <!--Perfil-->
+      <div class="profile-card">
+        <img class="profile-image" [src]="agentConected.photo" alt="perfil.png">
+      </div>
+      <mat-divider></mat-divider>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let menuItem of menu">
+          <mat-expansion-panel-header>
+            <mat-panel-description>
+              <h2>{{menuItem.header}}</h2>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div *ngFor="let subMenu of menuItem.submenu">
+            <button mat-menu-item [routerLink]="subMenu.url">
+              <mat-icon>{{subMenu.icon}}</mat-icon>
+              <span>{{subMenu.descripcion}}</span>
+            </button>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-nav-list>
+  </mat-drawer>
+  <div class="container-fluid">
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

@@ -1,0 +1,7 @@
+<mat-card class="mt-4">
+    <mat-card-content>
+        <h2><a routerLink="/Dashboard">Dashboard </a> / Clientes</h2>
+    </mat-card-content>
+</mat-card>
+<app-tab-clientes (refresh)="customerTable.updateTable($event)" (filterField)="customerTable.filterTable($event)"></app-tab-clientes>
+<app-tabla-clientes #customerTable></app-tabla-clientes>

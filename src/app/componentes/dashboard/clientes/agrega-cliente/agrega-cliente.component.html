@@ -1,0 +1,107 @@
+<div class="container-fluid">
+
+    <mat-card class="mt-4">
+        <mat-card-content>
+            <h2><a routerLink="/Dashboard">Dashboard</a> / <a routerLink="/Dashboard/Clientes">Clientes</a> / Registro De Clientes</h2>
+        </mat-card-content>
+    </mat-card>
+
+    <div class="border rounded-4 mt-4 p-4">
+        <form class="row" [formGroup]="clienteForm" (ngSubmit)="openConfirmationDialog()">
+            <h2 class="mb-4">Registro De Clientes</h2>
+            <input type="hidden" formControlName="id">
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Codigo</mat-label>
+                    <input type="number" matInput autocomplete="off" formControlName="codigo">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Primer Nombre</mat-label>
+                    <input matInput autocomplete="off" formControlName="primerNombre">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Segundo Nombre</mat-label>
+                    <input matInput autocomplete="off" formControlName="segundoNombre">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Primer Apellido</mat-label>
+                    <input matInput autocomplete="off" formControlName="primerApellido">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Segundo Apellido</mat-label>
+                    <input matInput autocomplete="off" formControlName="segundoApellido">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Razon Social</mat-label>
+                    <input matInput autocomplete="off" formControlName="razonSocial">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Tipo Identificacion:</mat-label>
+                    <mat-select formControlName="tipoIdentificacion">
+                        <mat-option value="Cedula">Cedula</mat-option>
+                        <mat-option value="Nit">Nit</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Numero Identificacion</mat-label>
+                    <input type="number" matInput autocomplete="off" formControlName="identificacion">
+                </mat-form-field>
+            </div>
+            <div class="col-md-8">
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput autocomplete="off" formControlName="email">
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Version</mat-label>
+                    <input matInput [matDatepicker]="Version" formControlName="versionSistema" readonly="true">
+                    <mat-datepicker-toggle matIconSuffix [for]="Version"></mat-datepicker-toggle>
+                    <mat-datepicker #Version></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Estado:</mat-label>
+                    <mat-select formControlName="estado">
+                        <mat-option [value]="true">Activo</mat-option>
+                        <mat-option [value]="false">Desactivado</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="col-1 mt-1 d-flex justify-content-start">
+                    <mat-toolbar>
+                        <span class="example-spacer"></span>
+                        <button mat-raised-button color="accent" routerLink="/Dashboard/Clientes">
+                            Atras
+                        </button>
+                    </mat-toolbar>
+                </div>
+                <div class="col-11 mt-1 d-flex justify-content-end">
+                    <mat-toolbar>
+                        <span class="example-spacer"></span>
+                        <button class="btn btn-success" type="submit" [disabled]="!clienteForm.valid">
+                            Registrar
+                        </button>
+                    </mat-toolbar>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

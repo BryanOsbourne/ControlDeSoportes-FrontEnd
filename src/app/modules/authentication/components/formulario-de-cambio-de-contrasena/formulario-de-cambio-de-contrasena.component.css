@@ -1,0 +1,42 @@
+.login-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr)
+}
+
+.box-left {
+    background-color: rebeccapurple;
+}
+
+.box-right {
+    display: flex;
+    background-color: #F6F7FF;
+    justify-content:center; 
+    align-items : center;
+}
+
+.box-right .header-box {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.box-right .body-box {
+    display: flex;
+    justify-content: center;
+    width: 370px;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+button {
+    width: 100%;
+}
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}

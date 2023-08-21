@@ -1,0 +1,82 @@
+<mat-card class="border rounded-4 mt-4 p-4">
+    <mat-card-header>
+        <mat-card-title class="mb-4">Filtro De Llamadas</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="row" [formGroup]="formGroup">
+            <div class="col-xxl-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Desde</mat-label>
+                    <input matInput [matDatepicker]="Desde" formControlName="startDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="Desde"></mat-datepicker-toggle>
+                    <mat-datepicker #Desde></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-xxl-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Hasta</mat-label>
+                    <input matInput [matDatepicker]="Hasta" formControlName="endDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="Hasta"></mat-datepicker-toggle>
+                    <mat-datepicker #Hasta></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-xxl-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Asesor: </mat-label>
+                    <mat-select formControlName="agent" placeholder="Todos">
+                        <mat-option value={{0}}>Todos</mat-option>
+                        <mat-option *ngFor="let agent of agents"
+                            [value]="agent.id">{{agent.firstName}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-xxl-2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Tipo De Soporte:</mat-label>
+                    <mat-select formControlName="supportType" placeholder="Todos">
+                        <mat-option value=''>Todos</mat-option>
+                        <mat-option value="Sistema">Sistema</mat-option>
+                        <mat-option value="Tecnico">Tecnico</mat-option>
+                        <mat-option value="Suscripcion">Suscripcion</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="border rounded-5 col-xxl-4 cajaEstado">
+                <mat-radio-group formControlName="state" color="primary">
+                    <mat-label>Mostrar:</mat-label>
+                    <mat-radio-button value="" [checked]="true">Todas</mat-radio-button>
+                    <mat-radio-button value="Pendiente">Pendientes</mat-radio-button>
+                    <mat-radio-button value="Finalizado">Finalizadas</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="col-xxl-8">
+                <mat-form-field appearance="outline">
+                    <mat-label>Cliente: </mat-label>
+                    <mat-select formControlName="customer" placeholder="Todos">
+                        <mat-option value={{0}}>Todos</mat-option>
+                        <mat-option *ngFor="let customer of customers" [value]="customer.codigo">
+                            {{'Codigo: ' + customer.codigo
+                            + ' - Nombre: ' + customer.firstName
+                            + ' - Apellido: ' + customer.lastName
+                            + ' - Razon Social: '+ customer.bussinesName}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-xxl-2 p-2">
+                <button mat-raised-button style="background-color: #91E4F7; width: 100%;" (click)="generateQuery()">
+                    <img class="btn-icon" src="../../../../../assets/icons/boton-actualizar.png"
+                        alt="boton-actualizar.png">
+                    Consultar
+                </button>
+            </div>
+            <div class="col-xxl-2 p-2">
+                <button mat-raised-button style="background-color: #C4F791; width: 100%;" (click)="downloadExcel()">
+                    <img class="btn-icon" src="../../../../../assets/icons/boton-actualizar.png"
+                        alt="boton-actualizar.png">
+                    Export Excel
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

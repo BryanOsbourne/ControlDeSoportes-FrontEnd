@@ -1,0 +1,182 @@
+<div class="row mt-2">
+    <div class="col-xl-5 mt-3">
+        <mat-card class="border rounded-4 p-4">
+            
+            <mat-card-header>
+                <mat-card-title>
+                    <img class="profile-image" [src]="agentConnected.photo" alt="perfil.png">
+                    {{agentConnected.firstName + ' ' + agentConnected.lastName}}
+                    <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">
+                    <button mat-raised-button color="accent" (click)="fileInput.click()">Cambiar Imagen De
+                        Perfil</button>
+                    <mat-card-subtitle> {{agentConnected.role}}</mat-card-subtitle>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+
+                <mat-slide-toggle class="mb-3" color="warn" (change)="unlockForm()">
+                    {{isBlocked ? 'Campos Habilitados':'Campos Deshabilitados'}}
+                </mat-slide-toggle>
+
+                <form class="row" [formGroup]="formGroup">
+
+                    <input type="hidden" formControlName="id">
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Username:</mat-label>
+                            <input matInput autocomplete="off" formControlName="username" readonly>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Rol:</mat-label>
+                            <input matInput autocomplete="off" formControlName="role" readonly>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Contraseña:</mat-label>
+                            <input matInput autocomplete="off" type="password" formControlName="password" minlength="5"
+                                [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Confirma Contraseña:</mat-label>
+                            <input matInput autocomplete="off" type="password" formControlName="password2" minlength="5"
+                                [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Primer Nombre:</mat-label>
+                            <input matInput autocomplete="off" formControlName="firstName" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Segundo Nombre:</mat-label>
+                            <input matInput autocomplete="off" formControlName="secondName" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Primer Apellido:</mat-label>
+                            <input matInput autocomplete="off" formControlName="lastName" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Segundo Apellido:</mat-label>
+                            <input matInput autocomplete="off" formControlName="secondSurname" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Tipo Identificacion:</mat-label>
+                            <mat-select formControlName="idType">
+                                <mat-option value="Cedula" [disabled]="!isBlocked">Cedula</mat-option>
+                                <mat-option value="NIT" [disabled]="!isBlocked">Nit</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Numero Identificacion:</mat-label>
+                            <input type="number" matInput autocomplete="off" formControlName="ccNit"
+                                [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-8">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email:</mat-label>
+                            <input matInput autocomplete="off" formControlName="email" [readonly]="!isBlocked">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-xxl-4">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Estado:</mat-label>
+                            <input matInput autocomplete="off" formControlName="state" readonly>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="col-xl-7 mt-3">
+        <mat-card class="box-card-rigth border rounded-4 p-3">
+            <mat-card-header>
+                <mat-card-title>Informacion 1</mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-tab-group class="mt-3">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="tab-icon">thumb_up</mat-icon>
+                            Soportes
+                        </ng-template>
+                        Content 1
+                    </mat-tab>
+
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="tab-icon">thumb_up</mat-icon>
+                            Actualizaciones
+                        </ng-template>
+                        Content 2
+                    </mat-tab>
+
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="tab-icon">thumb_up</mat-icon>
+                            Capacitaciones
+                        </ng-template>
+
+                        Content 3
+                    </mat-tab>
+                </mat-tab-group>
+            </mat-card-content>
+        </mat-card>
+
+        <div class="mt-3">
+            <mat-card class="box-card-rigth border rounded-4 p-3">
+                <mat-card-header>
+                    <mat-card-title>Informacion 2</mat-card-title>
+                    <mat-card-subtitle></mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-2">
+            <button mat-raised-button style=" background-color: #F7F391;" routerLink="/Dashboard">
+                <img class="btn-icon" src="../../../../../assets/icons/atras.png" alt="atras.png">
+                Atras
+            </button>
+        </div>
+        <div class="col-10 mt-1 d-flex justify-content-end">
+            <button mat-raised-button style="background-color: #C4F791;" (click)="saveData()"
+                [disabled]="!formGroup.valid">
+                <img class="btn-icon" src="../../../../../assets/icons/Activo.png" alt="add.png">
+                Guardar Cambios
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+<mat-card class="mt-4">
+    <mat-card-content>
+        <h2><a routerLink="/Dashboard">Dashboard </a> / Control De Llamadas</h2>
+    </mat-card-content>
+</mat-card>
+<app-filtro-de-llamadas (supportsFilter)="supportTable.updateTable($event)"
+    (supportsFilter)="cardSupport.getCountSupports($event)"
+    (filterField)="supportTable.filterTable($event)"></app-filtro-de-llamadas>
+<app-cards-llamadas #cardSupport></app-cards-llamadas>
+<app-tabla-de-llamadas #supportTable></app-tabla-de-llamadas>

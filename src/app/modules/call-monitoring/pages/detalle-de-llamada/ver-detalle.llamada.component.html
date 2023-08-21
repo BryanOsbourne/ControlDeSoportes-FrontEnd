@@ -1,0 +1,9 @@
+<mat-card class="mt-4">
+    <mat-card-content>
+        <h2><a routerLink="/Dashboard">Dashboard </a> / <a routerLink="/Dashboard/ControlDeLlamadas">Control De
+                Llamadas</a> /
+            Historial De Seguimientos </h2>
+    </mat-card-content>
+</mat-card>
+<app-filtro-llamada-log (llamadasFiltradas)="TablaLogs.updateTable($event)" (campoDeFiltro)="TablaLogs.filterTable($event)"></app-filtro-llamada-log>
+<app-tabla-llamada-log #TablaLogs></app-tabla-llamada-log>

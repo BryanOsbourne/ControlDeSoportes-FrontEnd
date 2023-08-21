@@ -1,0 +1,84 @@
+<div class="border rounded-5 mt-4 p-4 shadow">
+    <form class="row" [formGroup]="formulario">
+        <h2 class="mb-4">Filtro De Llamadas</h2>
+        <div class="col-md-2">
+            <mat-form-field appearance="outline">
+                <mat-label>Desde</mat-label>
+                <input matInput [matDatepicker]="Desde" formControlName="fechaDesde">
+                <mat-datepicker-toggle matIconSuffix [for]="Desde"></mat-datepicker-toggle>
+                <mat-datepicker #Desde></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2">
+            <mat-form-field appearance="outline">
+                <mat-label>Hasta</mat-label>
+                <input matInput [matDatepicker]="Hasta" formControlName="fechaHasta">
+                <mat-datepicker-toggle matIconSuffix [for]="Hasta"></mat-datepicker-toggle>
+                <mat-datepicker #Hasta></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2">
+            <mat-form-field appearance="outline">
+                <mat-label>Asesor: </mat-label>
+                <mat-select formControlName="asesor">
+                    <mat-option value="0">Todos</mat-option>
+                    <mat-option *ngFor="let asesor of asesores" [value]="asesor.id">{{asesor.primerNombre}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2">
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo De Soporte:</mat-label>
+                <mat-select formControlName="tipoSoporte" placeholder="Todos">
+                    <mat-option value="0">Todos</mat-option>
+                    <mat-option value="Sistema">Sistema</mat-option>
+                    <mat-option value="Tecnico">Tecnico</mat-option>
+                    <mat-option value="Suscripcion">Suscripcion</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="border rounded-5 col-md-4 cajaEstado">
+            <mat-radio-group formControlName="estado" color="primary">
+                <mat-label>Mostrar:</mat-label>
+                <mat-radio-button value="0" [checked]="true">Todas</mat-radio-button>
+                <mat-radio-button value="Pendiente">Pendientes</mat-radio-button>
+                <mat-radio-button value="Finalizado">Finalizadas</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="col-md-10">
+            <mat-form-field appearance="outline">
+                <mat-label>Cliente: </mat-label>
+                <mat-select formControlName="cliente">
+                    <mat-option value="0">Todos</mat-option>
+                    <mat-option *ngFor="let cliente of clientes" [value]="cliente.codigo">
+                        {{'Codigo: ' + cliente.codigo
+                        + ' - Nombre: ' + cliente.primerNombre
+                        + ' - Apellido: ' + cliente.primerApellido
+                        + ' - Razon Social: '+ cliente.razonSocial}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2">
+            <mat-toolbar>
+                <button class="btn btn-primary" (click)="ejecutarConsulta()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    Consultar
+                </button>
+            </mat-toolbar>
+        </div>
+    </form>
+    <mat-form-field appearance="outline">
+        <mat-label>Filtro</mat-label>
+        <input matInput (keyup)="filtrarLlamadas($event)" #input autocomplete="off">
+    </mat-form-field>
+    <div class="row">
+        <div class="col-15">
+            <mat-toolbar>
+                <span class="example-spacer"></span>
+                <button mat-raised-button color="primary" (click)="agregarNuevaLlamada()">
+                    <i class="fa-solid fa-plus"></i>
+                    Nuevo Registro</button>
+            </mat-toolbar>
+        </div>
+    </div>
+</div>

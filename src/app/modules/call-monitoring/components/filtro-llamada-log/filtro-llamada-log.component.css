@@ -1,0 +1,21 @@
+.mat-mdc-form-field {
+    font-size: 20px;
+    width: 100%;
+}
+ 
+.bttn{
+    width: 300px;
+}
+
+.mat-mdc-select {
+    font-size: 20px;
+}
+
+.border{
+    border-radius: 30px;
+}
+
+.btn-primary{
+    height: 40px;
+    width: 200px;
+}

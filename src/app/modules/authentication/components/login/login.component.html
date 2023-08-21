@@ -1,0 +1,41 @@
+<div class="login-container min-vh-100">
+    <div class="box-left">
+
+    </div>
+
+    <div class="box-right">
+        <mat-card style="border-radius: 30px;">
+            <mat-card-header>
+                <mat-card-title>Bienvenido</mat-card-title>
+                <mat-card-subtitle>Estamos muy felices de tenerte de vuelta</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="header-box">
+                    <img src="../../../../assets/img/logo.png" width="250px">
+                </div>
+                <mat-card>
+                    <mat-card-content class="body-box">
+                        <div *ngIf="!isLogged">
+                            <form [formGroup]="formGroup" (ngSubmit)="login()">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Usuario</mat-label>
+                                    <input matInput autocomplete="on" formControlName="username">
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Contraseña</mat-label>
+                                    <input type="password" matInput formControlName="password">
+                                </mat-form-field>
+                                <mat-label>
+                                    <a routerLink="ResetPassword">¿Olvidaste tu contraseña?</a>
+                                </mat-label>
+                                <button type="submit" mat-raised-button color="primary"
+                                    [disabled]="formGroup.invalid">Acceder</button>
+                            </form>
+                        </div>
+                        <mat-spinner *ngIf="isLogged" diameter="80" class="spinner" color="primary"></mat-spinner>
+                    </mat-card-content>
+                </mat-card>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

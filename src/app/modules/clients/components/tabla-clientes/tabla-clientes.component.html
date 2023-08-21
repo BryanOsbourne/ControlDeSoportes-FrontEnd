@@ -1,0 +1,73 @@
+<div class="mat-elevation-z10 mt-4">
+    
+    <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="Codigo">
+            <th mat-header-cell *matHeaderCellDef> Codigo </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.codigo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Primer Nombre">
+            <th mat-header-cell *matHeaderCellDef> Primer Nombre </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.firstName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Primer Apellido">
+            <th mat-header-cell *matHeaderCellDef> Primer Apellido </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.lastName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Segundo Apellido">
+            <th mat-header-cell *matHeaderCellDef> Segundo Apellido </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.secondSurname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Razon Social">
+            <th mat-header-cell *matHeaderCellDef> Razon Social </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.bussinesName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="TipoIdentificacion">
+            <th mat-header-cell *matHeaderCellDef> Tipo Identificacion </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.idType}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Identificacion">
+            <th mat-header-cell *matHeaderCellDef> N° Identificacion </th>
+            <td mat-cell *matCellDef="let cliente"> {{cliente.ccNit}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Version">
+            <th mat-header-cell *matHeaderCellDef> Version </th>
+            <td mat-cell *matCellDef="let cliente"> {{formatDate(cliente.version)}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Estado">
+            <th mat-header-cell *matHeaderCellDef> Estado </th>
+            <td mat-cell *matCellDef="let cliente">
+                <app-chip-estado [stateEntity]="cliente.state"></app-chip-estado>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let cliente">
+                <div class="row">
+                    <div class="col-6">
+                        <a [routerLink]="['EditarCliente', cliente.codigo]" matTooltip="Editar Cliente">
+                            <img class="icono" src="../../../../../assets/icons/pencil.png" alt="pencil.png">
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <button mat-mini-fab matTooltip="Eliminar Cliente" (click)="deleteCustomer(cliente.codigo)">
+                            <img class="icono" src="../../../../../assets/icons/basura.png" alt="basura.png">
+                        </button>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

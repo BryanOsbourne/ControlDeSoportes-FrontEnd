@@ -1,0 +1,8 @@
+<mat-card class="mt-4">
+    <mat-card-content>
+        <h2><a routerLink="/Dashboard">Dashboard </a> / Asesores</h2>
+    </mat-card-content>
+</mat-card>
+<app-tab-asesores (refresh)="agentTable.updateTable($event)" (filterField)="agentTable.filterTable($event)"></app-tab-asesores>
+<app-tabla-asesores #agentTable></app-tabla-asesores>
+
