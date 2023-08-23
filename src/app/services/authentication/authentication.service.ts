@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Agent } from 'src/app/core/models/agent';
 import jwt_decode from 'jwt-decode';
-import { AuthenticationResponse } from 'src/app/core/models/authenticationResponse';
-import { AuthenticationRequest } from 'src/app/core/models/authenticationRequest';
+import { AuthenticationResponse } from 'src/app/core/models/AuthenticationResponse';
+import { AuthenticationRequest } from 'src/app/core/models/AuthenticationRequest';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthenticationService {
 
   private URL_BASE_AUTHENTICATION = "http://localhost:8080/v1/app-ticket-trace/authentication";

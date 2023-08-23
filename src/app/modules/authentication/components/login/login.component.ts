@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AuthenticationRequest } from 'src/app/core/models/authenticationRequest';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-
 
 @Component({
   selector: 'app-login',
