@@ -64,13 +64,7 @@ export class FormularioDeClientesComponent implements OnInit {
   }
 
   saveCustomer() {
-    this.customerService.saveCustomer(this.formGroup.value).subscribe(() => {
-      this.matSnackBar.open('Cliente Registrado Exitosamente', '', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      })
-      this.router.navigate(["/Dashboard/Clientes"])
+    this.customerService.saveCustomer(this.formGroup.value).subscribe(() => {this.router.navigate(["/Dashboard/Clientes"])
     })
   }
 
