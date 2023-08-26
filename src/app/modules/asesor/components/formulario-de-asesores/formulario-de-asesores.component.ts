@@ -68,14 +68,7 @@ export class FormularioDeAsesoresComponent implements OnInit {
 
   save() {
     this.formGroup.value.password = '';
-    this.agentService.save(this.formGroup.value).subscribe(() => {
-      this.matSnackBar.open('Asesor Registrado Exitosamente', '', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      })
-      this.router.navigate(["/Dashboard/Asesores"])
-    })
+    this.agentService.save(this.formGroup.value).subscribe(() => { this.router.navigate(["/Dashboard/Asesores"])})
   }
 
   unlockForm() {
