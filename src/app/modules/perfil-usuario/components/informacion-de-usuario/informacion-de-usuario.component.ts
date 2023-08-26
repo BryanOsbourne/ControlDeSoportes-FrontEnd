@@ -57,12 +57,11 @@ export class InformacionDeUsuarioComponent implements OnInit {
     });
   }
 
-  public unlockForm() {
+  unlockForm() {
     this.isBlocked = !this.isBlocked;
   }
 
-  openConfirmedDialog() {
-    this.dialogsService.successConfirmedDialog().then((confirmed) => {
+  openConfirmedDialog() {    this.dialogsService.successConfirmedDialog().then((confirmed) => {
       if (confirmed) {
         this.saveData();
       }
