@@ -17,10 +17,10 @@ import { ReportService } from 'src/app/services/reportes/report.service';
 
 export class FiltroDeLlamadasComponent implements OnInit {
 
-  public formGroup: FormGroup;
-  public agents: Agent[];
-  public customers: Customer[];
-  public supports: Support[];
+  formGroup: FormGroup;
+  agents: Agent[];
+  customers: Customer[];
+  supports: Support[];
 
   @Output() supportsFilter = new EventEmitter<Support[]>();
   @Output() filterField = new EventEmitter<string>();
@@ -33,14 +33,14 @@ export class FiltroDeLlamadasComponent implements OnInit {
     private reportService: ReportService) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formInit();
     this.loadAgents();
     this.loadCustomers();
     this.generateQuery();
   }
 
-  private formInit() {
+  formInit() {
     this.formGroup = this.formBuilder.group({
       startDate: [new Date()],
       endDate: [new Date()],
@@ -53,25 +53,25 @@ export class FiltroDeLlamadasComponent implements OnInit {
     })
   }
 
-  private loadAgents() {
+  loadAgents() {
     this.agentService.findActives().subscribe((agentActives) => {
       this.agents = agentActives;
     })
   }
 
-  private loadCustomers() {
+  loadCustomers() {
     this.customerService.findCustomerActive().subscribe((customerActives) => {
       this.customers = customerActives;
     })
   }
 
-  public generateQuery() {
+  generateQuery() {
     this.supportService.findByCriteria(this.getCriteria()).subscribe((supports) => {
       this.supportsFilter.emit(supports);
     });
   }
 
-  private getCriteria() {
+  getCriteria() {
     const criterias = {
       agentId: this.formGroup.value.agent,
       customerId: this.formGroup.value.customer,
@@ -83,7 +83,7 @@ export class FiltroDeLlamadasComponent implements OnInit {
     return criterias;
   }
 
-  public filterSupport(event: Event) {
+  filterSupport(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterField.emit(filterValue.trim().toLowerCase());
   }
