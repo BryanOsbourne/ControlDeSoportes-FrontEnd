@@ -13,16 +13,16 @@ export class TabClientesComponent implements OnInit {
 
   constructor(private customerService: CustomerService) { }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.updateTable();
   }
 
-  public customerFilterField(event: Event) {
+  customerFilterField(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterField.emit(filterValue.trim().toLowerCase());
   }
 
-  public updateTable() {
+  updateTable() {
     this.customerService.findAll().subscribe((customers) => {
       this.refresh.emit(customers);
     }
