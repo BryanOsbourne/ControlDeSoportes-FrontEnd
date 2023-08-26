@@ -9,19 +9,19 @@ import { LogSupport } from 'src/app/core/models/logSupport';
 
 export class LogsSupportService {
 
-  private URL_BASE_AUTHENTICATION = "http://localhost:8080/v1/app-ticket-trace/log-supports";
+  URL_BASE_AUTHENTICATION = "http://localhost:8080/v1/app-ticket-trace/log-supports";
 
   constructor(private httpClient: HttpClient) { }
 
-  public buscarLogById(id: number): Observable<LogSupport> {
+  buscarLogById(id: number): Observable<LogSupport> {
     return this.httpClient.get<LogSupport>(this.URL_BASE_AUTHENTICATION + '/findById?id=' + id);
   }
 
-  public fingLogByIdSupport(id: number): Observable<LogSupport[]> {
+  fingLogByIdSupport(id: number): Observable<LogSupport[]> {
     return this.httpClient.get<LogSupport[]>(this.URL_BASE_AUTHENTICATION + '/findAllBySupportId?supportId=' + id);
   }
 
-  public findByCriterias(criterias: any): Observable<LogSupport[]> {
+  findByCriterias(criterias: any): Observable<LogSupport[]> {
     const params = {
       params: {
         agentId: criterias.agentId,

@@ -1,17 +1,15 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { distinctUntilChanged } from 'rxjs';
-import { DialogDeConfirmacionComponent } from 'src/app/core/components/dialog-de-confirmacion/dialog-de-confirmacion.component';
 import { Agent } from 'src/app/core/models/agent';
 import { Customer } from 'src/app/core/models/customer';
 import { Support } from 'src/app/core/models/support';
 import { AgentService } from 'src/app/services/asesores/agent.service';
 import { CustomerService } from 'src/app/services/clients/customer.service';
+import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
 import { SupportService } from 'src/app/services/llamadas/support.service';
 
 @Component({
@@ -21,11 +19,11 @@ import { SupportService } from 'src/app/services/llamadas/support.service';
 })
 export class FormularioDeLlamadasComponent implements OnInit {
 
-  public formGroup: FormGroup;
-  public agents: Agent[];
-  public customers: Customer[];
-  public dataSource: MatTableDataSource<Support>;
-  public customerFound: Customer | undefined;
+  formGroup: FormGroup;
+  agents: Agent[];
+  customers: Customer[];
+  dataSource: MatTableDataSource<Support>;
+  customerFound: Customer | undefined;
 
   @Output() llamadasEncontradas = new EventEmitter<Support[]>();
 
@@ -36,13 +34,12 @@ export class FormularioDeLlamadasComponent implements OnInit {
     private supportService: SupportService,
     private customerService: CustomerService,
     private agentService: AgentService,
-    private matSnackBar: MatSnackBar,
-    private matDialog: MatDialog,
     private activateRoute: ActivatedRoute,
     private router: Router,
+    private dialogsService: DialogsService
   ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     const id = this.activateRoute.snapshot.params['id'];
     this.formInit();
     this.loadAgents();
@@ -50,7 +47,7 @@ export class FormularioDeLlamadasComponent implements OnInit {
     this.findById(id);
   }
 
-  private formInit() {
+  formInit() {
     this.formGroup = this.formBuilder.group({
       id: [''],
       startDate: [new Date(), Validators.required],
@@ -68,43 +65,43 @@ export class FormularioDeLlamadasComponent implements OnInit {
     })
   }
 
-  private loadAgents() {
+  loadAgents() {
     this.agentService.findActives().subscribe((agents) => {
       this.agents = agents;
     })
   }
 
-  private loadCustomers() {
+  loadCustomers() {
     this.customerService.findCustomerActive().subscribe((customers) => {
       this.customers = customers;
     })
   }
 
-  private findById(id: number) {
+  findById(id: number) {
     if (id) {
       this.supportService.findById(id).subscribe((support) => {
         this.customerFound = support.customer;
-        this.formGroup.setValue({ 
-          id : this.customerFound.id,
-          startDate : support.startDate,
+        this.formGroup.setValue({
+          id: this.customerFound.id,
+          startDate: support.startDate,
           startTime: support.startTime,
           endDate: support.endDate,
           endTime: support.endTime,
           agent: support.agent.id,
           codigo: this.customerFound.codigo,
           contact: support.contact,
-          phone : support.phone,
+          phone: support.phone,
           supportType: support.supportType,
           detail: support.detail,
           observation: support.observation,
           state: support.state
-         });
+        });
       });
       this.findCustomerByCodigo();
     }
   }
 
-  public findCustomerByCodigo() {
+  findCustomerByCodigo() {
     this.formGroup.get('codigo')?.valueChanges.pipe(distinctUntilChanged()).subscribe(codigoSeleccionado => {
       const customer = this.customers.find(item => item.codigo == codigoSeleccionado);
       if (customer) {
@@ -114,7 +111,7 @@ export class FormularioDeLlamadasComponent implements OnInit {
     });
   }
 
-  public findSupportByCustomer(customer: Customer) {
+  findSupportByCustomer(customer: Customer) {
     if (!customer) {
       this.dataSource.data = [];
       return
@@ -124,21 +121,15 @@ export class FormularioDeLlamadasComponent implements OnInit {
     });
   }
 
-  public openConfirmedDialog() {
-    const dialogRef = this.matDialog.open(DialogDeConfirmacionComponent, {
-      width: '30%',
-      height: '22%',
-      data: { message: '¿Estás seguro que deseas realizar esta acción?' }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.save();
+  openConfirmedDialog() {
+    this.dialogsService.successConfirmedDialog().then((confirmed) => {
+      if (confirmed) {
+        this.save()
       }
     });
   }
 
-  private save() {
+  save() {
     const { id, startDate, startTime, supportType, contact, phone, detail, observation, endDate, endTime, state, codigo } = this.formGroup.value;
     const agent = this.agents.find(item => item.id == this.formGroup.value.agent);
     const customer = this.customers.find(item => item.codigo == codigo);
@@ -164,13 +155,8 @@ export class FormularioDeLlamadasComponent implements OnInit {
     };
 
     this.supportService.save(support).subscribe(() => {
-      this.matSnackBar.open('Llamada Registrada Exitosamente', '', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      })
       this.router.navigate(["/Dashboard/ControlDeLlamadas"]);
-    },(error) => console.log(error));
+    });
   }
 
 }

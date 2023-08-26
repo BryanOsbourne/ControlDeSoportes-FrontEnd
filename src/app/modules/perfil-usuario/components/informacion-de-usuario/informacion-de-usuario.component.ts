@@ -5,6 +5,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ArchivoService } from 'src/app/services/archivos/archivo.service';
+import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
 
 @Component({
   selector: 'app-informacion-de-usuario',
@@ -13,30 +14,31 @@ import { ArchivoService } from 'src/app/services/archivos/archivo.service';
 })
 export class InformacionDeUsuarioComponent implements OnInit {
 
-  public formGroup: FormGroup;
-  public agentConnected: Agent;
-  public isBlocked = false;
-  private formData = new FormData();
+  formGroup: FormGroup;
+  agentConnected: Agent;
+  isBlocked = false;
+  formData = new FormData();
 
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private archivoService: ArchivoService,
     private matSnackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialogsService: DialogsService
   ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.loadUserData();
   }
 
-  private loadUserData() {
+  loadUserData() {
     this.agentConnected = this.authenticationService.getUserToken();
     this.formInit();
 
   }
 
-  private formInit() {
+  formInit() {
     this.formGroup = this.formBuilder.group({
       id: [this.agentConnected.id, Validators.required],
       username: [this.agentConnected.username, Validators.required],
@@ -59,8 +61,16 @@ export class InformacionDeUsuarioComponent implements OnInit {
     this.isBlocked = !this.isBlocked;
   }
 
+  openConfirmedDialog() {
+    this.dialogsService.successConfirmedDialog().then((confirmed) => {
+      if (confirmed) {
+        this.saveData();
+      }
+    });
+  }
+
   //TODO: Cuando se desea guardar los datos sin imagen genera error
-  public saveData() {
+  saveData() {
     if (this.matchPassword()) {
       this.archivoService.uploadUSerPhoto(this.formData).subscribe((response) => {
         this.formGroup.value.photo = response.url;
@@ -78,7 +88,8 @@ export class InformacionDeUsuarioComponent implements OnInit {
     }
   }
 
-  private matchPassword() {
+
+  matchPassword() {
     const password1 = this.formGroup.get('password')?.value;
     const password2 = this.formGroup.get('password2')?.value;
     if (password1 != password2) {
@@ -92,7 +103,7 @@ export class InformacionDeUsuarioComponent implements OnInit {
     return true;
   }
 
-  public onFileSelected(event: Event) {
+  onFileSelected(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
       this.formData.append('file', fileInput.files[0]);

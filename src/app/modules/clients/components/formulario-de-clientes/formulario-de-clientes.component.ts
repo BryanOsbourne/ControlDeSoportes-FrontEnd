@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogDeConfirmacionComponent } from 'src/app/core/components/dialog-de-confirmacion/dialog-de-confirmacion.component';
 import { CustomerService } from 'src/app/services/clients/customer.service';
+import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
 
 @Component({
   selector: 'app-formulario-de-clientes',
@@ -13,7 +12,7 @@ import { CustomerService } from 'src/app/services/clients/customer.service';
 })
 export class FormularioDeClientesComponent implements OnInit {
 
-  public formGroup: FormGroup;
+  formGroup: FormGroup;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -21,16 +20,16 @@ export class FormularioDeClientesComponent implements OnInit {
     private router: Router,
     private matSnackBar: MatSnackBar,
     private formBuilder: FormBuilder,
-    private matDialog: MatDialog
+    private dialogsService: DialogsService
   ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formInit();
     const codigo = this.activatedRoute.snapshot.params['codigo'];
     this.findCustomerByCodigo(codigo);
   }
 
-  private formInit() {
+  formInit() {
     this.formGroup = this.formBuilder.group({
       id: [],
       codigo: ['', Validators.required],
@@ -47,7 +46,7 @@ export class FormularioDeClientesComponent implements OnInit {
     })
   }
 
-  private findCustomerByCodigo(codigo: number) {
+  findCustomerByCodigo(codigo: number) {
     if (!codigo) {
       return;
     }
@@ -56,21 +55,15 @@ export class FormularioDeClientesComponent implements OnInit {
     });
   }
 
-  public openConfirmationDialog() {
-    const dialogRef = this.matDialog.open(DialogDeConfirmacionComponent, {
-      width: '30%',
-      height: '25%',
-      data: { message: '¿Estás seguro que deseas realizar esta acción?' }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+  openConfirmedDialog() {
+    this.dialogsService.successConfirmedDialog().then((confirmed) => {
+      if (confirmed) {
         this.saveCustomer();
       }
     });
   }
 
-  public saveCustomer() {
+  saveCustomer() {
     this.customerService.saveCustomer(this.formGroup.value).subscribe(() => {
       this.matSnackBar.open('Cliente Registrado Exitosamente', '', {
         duration: 3000,
@@ -80,4 +73,5 @@ export class FormularioDeClientesComponent implements OnInit {
       this.router.navigate(["/Dashboard/Clientes"])
     })
   }
+
 }

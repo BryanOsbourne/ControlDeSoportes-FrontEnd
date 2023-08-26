@@ -9,24 +9,24 @@ import { Agent } from 'src/app/core/models/agent';
 
 export class AgentService {
 
-  private URL_BASE_AUTHENTICATION = "http://localhost:8080/v1/app-ticket-trace/authentication";
-  private URL_BASE_AGENT = "http://localhost:8080/v1/app-ticket-trace/agents";
+  URL_BASE_AUTHENTICATION = "http://localhost:8080/v1/app-ticket-trace/authentication";
+  URL_BASE_AGENT = "http://localhost:8080/v1/app-ticket-trace/agents";
 
   constructor(private httpClient: HttpClient) { }
 
-  public findAll(): Observable<Agent[]> {
+  findAll(): Observable<Agent[]> {
     return this.httpClient.get<Agent[]>(this.URL_BASE_AGENT + '/findAll');
   }
 
-  public findActives(): Observable<Agent[]> {
+  findActives(): Observable<Agent[]> {
     return this.httpClient.get<Agent[]>(this.URL_BASE_AGENT + '/findActives');
   }
 
-  public save(asesor: Agent) {
+  save(asesor: Agent) {
     return this.httpClient.post<Agent>(this.URL_BASE_AUTHENTICATION + '/create', asesor);
   }
 
-  public findById(id: number): Observable<Agent> {
+  findById(id: number): Observable<Agent> {
     return this.httpClient.get<Agent>(this.URL_BASE_AGENT + '/findById?id=' + id);
   }
 

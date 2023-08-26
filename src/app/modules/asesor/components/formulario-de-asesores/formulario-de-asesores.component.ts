@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogDeConfirmacionComponent } from 'src/app/core/components/dialog-de-confirmacion/dialog-de-confirmacion.component';
 import { AgentService } from 'src/app/services/asesores/agent.service';
+import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
 
 @Component({
   selector: 'app-formulario-de-asesores',
@@ -14,8 +13,8 @@ import { AgentService } from 'src/app/services/asesores/agent.service';
 
 export class FormularioDeAsesoresComponent implements OnInit {
 
-  public formGroup: FormGroup;
-  public isBlocked = false;
+  formGroup: FormGroup;
+  isBlocked = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -23,16 +22,16 @@ export class FormularioDeAsesoresComponent implements OnInit {
     private formBuilder: FormBuilder,
     private agentService: AgentService,
     private matSnackBar: MatSnackBar,
-    private matDialog: MatDialog
+    private dialogsService: DialogsService
   ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formInit();
     const id = this.activatedRoute.snapshot.params['id'];
     this.findById(id);
   }
 
-  private formInit() {
+  formInit() {
     this.formGroup = this.formBuilder.group({
       id: [],
       username: ['', Validators.required],
@@ -50,7 +49,7 @@ export class FormularioDeAsesoresComponent implements OnInit {
     })
   }
 
-  private findById(id: number) {
+  findById(id: number) {
     if (!id) {
       return;
     }
@@ -59,21 +58,15 @@ export class FormularioDeAsesoresComponent implements OnInit {
     });
   }
 
-  public openConfirmationDialog() {
-    const dialogRef = this.matDialog.open(DialogDeConfirmacionComponent, {
-      width: '30%',
-      height: '22%',
-      data: { message: '¿Está seguro de realizar esta operacion?' }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+  openConfirmationDialog() {
+    this.dialogsService.successConfirmedDialog().then((confirmed) => {
+      if (confirmed) {
         this.save();
       }
     });
   }
 
-  private save() {
+  save() {
     this.formGroup.value.password = '';
     this.agentService.save(this.formGroup.value).subscribe(() => {
       this.matSnackBar.open('Asesor Registrado Exitosamente', '', {
@@ -85,7 +78,7 @@ export class FormularioDeAsesoresComponent implements OnInit {
     })
   }
 
-  public unlockForm() {
+  unlockForm() {
     this.isBlocked = !this.isBlocked;
   }
 

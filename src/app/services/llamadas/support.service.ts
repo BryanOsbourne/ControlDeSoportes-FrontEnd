@@ -9,27 +9,27 @@ import { Support } from 'src/app/core/models/support';
 
 export class SupportService {
 
-  private URL_BASE = "http://localhost:8080/v1/app-ticket-trace/supports";
+  URL_BASE = "http://localhost:8080/v1/app-ticket-trace/supports";
 
   constructor(private httpClient: HttpClient) { }
 
-  public findAll(): Observable<Support[]> {
+  findAll(): Observable<Support[]> {
     return this.httpClient.get<Support[]>(this.URL_BASE + '/findAll');
   }
 
-  public save(llamada: Support) {
+  save(llamada: Support) {
     return this.httpClient.post(this.URL_BASE + '/save', llamada);
   }
 
-  public findById(id: number): Observable<Support> {
+  findById(id: number): Observable<Support> {
     return this.httpClient.get<Support>(this.URL_BASE + '/findById?id=' + id);
   }
 
-  public findByCustomer(idCustomer: number): Observable<Support[]> {
+  findByCustomer(idCustomer: number): Observable<Support[]> {
     return this.httpClient.get<Support[]>(this.URL_BASE + '/findAllByCustomerId?customerId=' + idCustomer);
   }
 
-  public findByCriteria(criterias: any): Observable<Support[]> {
+  findByCriteria(criterias: any): Observable<Support[]> {
     const params = {
       params: {
         agentId: criterias.agentId,
