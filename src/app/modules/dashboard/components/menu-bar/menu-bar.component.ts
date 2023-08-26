@@ -9,15 +9,15 @@ import { MenuService } from 'src/app/services/menu/menu.service';
 
 export class MenuBarComponent implements OnInit {
 
-  public menu: any[];
+  menu: any[];
 
   constructor(private menuService: MenuService) { }
 
-  public ngOnInit(): void {
+  ngOnInit() {
     this.loadMenu();
   }
 
-  private loadMenu() {
+  loadMenu() {
     this.menu = this.menuService.cargarSideNav();
   }
 
