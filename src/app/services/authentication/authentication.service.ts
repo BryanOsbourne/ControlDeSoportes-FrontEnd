@@ -32,11 +32,11 @@ export class AuthenticationService {
     localStorage.setItem('token', authenticationResponse.token);
   }
 
-  public getToken() {
+  getToken() {
     return localStorage.getItem('token');
   }
 
-  public getUserToken() {
+  getUserToken() {
     const token = this.getToken();
     if (token) {
       const decodedToken: any = jwt_decode(token);
@@ -44,7 +44,7 @@ export class AuthenticationService {
     }
   }
 
-  public logout() {
+  logout() {
     localStorage.removeItem('token');
     return true;
   }
