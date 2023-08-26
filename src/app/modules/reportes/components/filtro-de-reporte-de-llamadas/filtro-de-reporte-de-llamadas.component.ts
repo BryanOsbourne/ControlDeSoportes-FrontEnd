@@ -15,10 +15,10 @@ import { ReportService } from 'src/app/services/reportes/report.service';
 })
 export class FiltroDeReporteDeLlamadasComponent {
 
-  public formGroup: FormGroup;
-  public agents: Agent[];
-  public customers: Customer[];
-  public supports: Support[];
+  formGroup: FormGroup;
+  agents: Agent[];
+  customers: Customer[];
+  supports: Support[];
 
   @Output() supportsFilter = new EventEmitter<Support[]>();
 
@@ -30,13 +30,13 @@ export class FiltroDeReporteDeLlamadasComponent {
     private reportService: ReportService) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formInit();
     this.loadAgents();
     this.loadCustomers();
   }
 
-  private formInit() {
+  formInit() {
     this.formGroup = this.formBuilder.group({
       startDate: [new Date()],
       endDate: [new Date()],
@@ -49,25 +49,22 @@ export class FiltroDeReporteDeLlamadasComponent {
     })
   }
 
-  private loadAgents() {
-    this.agentService.findActives().subscribe((agentActives) => {
+  loadAgents() {    this.agentService.findActives().subscribe((agentActives) => {
       this.agents = agentActives;
     })
   }
 
-  private loadCustomers() {
-    this.customerService.findCustomerActive().subscribe((customerActives) => {
+  loadCustomers() {    this.customerService.findCustomerActive().subscribe((customerActives) => {
       this.customers = customerActives;
     })
   }
 
-  public generateQuery() {
-    this.supportService.findByCriteria(this.getCriteria()).subscribe((supports) => {
+  generateQuery() {    this.supportService.findByCriteria(this.getCriteria()).subscribe((supports) => {
       this.supportsFilter.emit(supports);
     });
   }
 
-  private getCriteria() {
+  getCriteria() {
     const criterias = {
       agentId: this.formGroup.value.agent,
       customerId: this.formGroup.value.customer,
@@ -79,8 +76,7 @@ export class FiltroDeReporteDeLlamadasComponent {
     return criterias;
   }
 
-  public downloadExcel() {
-    this.reportService.getReport(this.getCriteria()).subscribe((response) => {
+  downloadExcel() {    this.reportService.getReport(this.getCriteria()).subscribe((response) => {
       this.reportService.manageExcelFile(response, "Soportes")
     });
   }
