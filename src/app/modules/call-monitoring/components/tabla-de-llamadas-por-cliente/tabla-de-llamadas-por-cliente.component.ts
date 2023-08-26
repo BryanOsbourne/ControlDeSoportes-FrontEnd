@@ -14,8 +14,8 @@ import { SupportService } from 'src/app/services/llamadas/support.service';
 })
 export class TablaDeLlamadasPorClienteComponent {
 
-  public displayedColumns: string[] = ['Consecutivo', 'Fecha/Hora', 'Asesor', 'Codigo', 'Razon Social', 'Tipo De Soporte', 'Estado', 'Ver'];
-  public dataSource: MatTableDataSource<Support>;
+  displayedColumns: string[] = ['Consecutivo', 'Fecha/Hora', 'Asesor', 'Codigo', 'Razon Social', 'Tipo De Soporte', 'Estado', 'Ver'];
+  dataSource: MatTableDataSource<Support>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -24,12 +24,12 @@ export class TablaDeLlamadasPorClienteComponent {
     private matDialog: MatDialog,
   ){ }
 
-  public updateTable(supports: Support[]) {
+  updateTable(supports: Support[]) {
     this.dataSource = new MatTableDataSource(supports);
     this.dataSource.paginator = this.paginator;
   }
 
-  public viewDetails(id: number) {
+  viewDetails(id: number) {
     this.supportService.findById(id).subscribe(support => {
       this.matDialog.open(DialogLlamadaLogComponent, {
         width: '100%',
@@ -39,7 +39,7 @@ export class TablaDeLlamadasPorClienteComponent {
     });
   }
   
-  public formatDate(fecha: Date) {
+  formatDate(fecha: Date) {
     return formatDate(fecha, 'dd/MM/yyy hh:mm:ss', 'en-ES');
   }
 
