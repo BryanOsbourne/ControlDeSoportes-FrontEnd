@@ -75,11 +75,6 @@ export class InformacionDeUsuarioComponent implements OnInit {
         this.formGroup.value.photo = response.url;
         this.formGroup.value.state = this.formGroup.value.state === 'Activo' ? true : false;
         this.authenticationService.updateProfile(this.formGroup.value).subscribe(() => {
-          this.matSnackBar.open('Asesor Registrado Exitosamente', '', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom'
-          })
           this.authenticationService.logout();
           this.router.navigate(['login']);
         })
