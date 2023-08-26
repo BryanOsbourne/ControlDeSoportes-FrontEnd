@@ -8,13 +8,13 @@ import { Support } from 'src/app/core/models/support';
 })
 export class CardsLlamadasComponent {
 
-  public countSupport = {
+  countSupport = {
     finalizadas: 0,
     pendientes: 0,
     totales: 0,
   };
 
-  public getCountSupports(supports: Support[]) {
+  getCountSupports(supports: Support[]) {
     this.countSupport.finalizadas = 0;
     this.countSupport.pendientes = 0;
     this.countSupport.totales = 0;
