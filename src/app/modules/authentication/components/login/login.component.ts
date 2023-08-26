@@ -12,8 +12,8 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 
 export class LoginComponent implements OnInit {
 
-  public isLogged = false;
-  public formGroup: FormGroup;
+  isLogged = false;
+  formGroup: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,30 +22,29 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formInit();
   }
 
-  private formInit() {
+  formInit() {
     this.formGroup = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     })
   }
 
-  public login() {
+  login() {
     this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
       this.authenticationService.setToken(AuthenticationResponse);
       this.loading();
     },
       (error) => {
-        console.log(error)
         this.error();
         this.formGroup.reset();
       })
   }
 
-  private loading() {
+  loading() {
     this.isLogged = true;
     setTimeout(() => {
       this.router.navigate(['Dashboard']);
@@ -54,7 +53,7 @@ export class LoginComponent implements OnInit {
     }, 1500);
   }
 
-  private error(): void {
+  error(): void {
     this.matSnackBar.open('Usuario y/o Contraseña Invalido', '', {
       duration: 5000,
       horizontalPosition: 'center',
