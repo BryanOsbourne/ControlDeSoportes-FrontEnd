@@ -11,8 +11,8 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class FormularioDeCambioDeContrasenaComponent implements OnInit {
 
-  public isRecover = false;
-  public formGroup: FormGroup;
+  isRecover = false;
+  formGroup: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,17 +22,17 @@ export class FormularioDeCambioDeContrasenaComponent implements OnInit {
     ) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formInit();
   }
 
-  private formInit() {
+  formInit() {
     this.formGroup = this.formBuilder.group({
       username: ['', Validators.required]
     })
   }
 
-  public recoverAccount() {
+  recoverAccount() {
     const username = this.formGroup.value.username;
     this.authenticationService.recoverByUsername(username).subscribe((peticionEnviada) => {
       if(peticionEnviada){
@@ -49,7 +49,7 @@ export class FormularioDeCambioDeContrasenaComponent implements OnInit {
       })
   }
 
-  private findUser() {
+  findUser() {
     this.matSnackBar.open('Solicitud Enviada', '', {
       duration: 5000,
       horizontalPosition: 'center',
