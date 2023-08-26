@@ -14,9 +14,9 @@ import { LogsSupportService } from 'src/app/services/llamadalog/logSupport.servi
 
 export class FiltroLlamadaLogComponent implements OnInit {
 
-  private id: number;
-  public formGroup: FormGroup;
-  public agents: Agent[];
+  id: number;
+  formGroup: FormGroup;
+  agents: Agent[];
 
   @Output() llamadasFiltradas = new EventEmitter<LogSupport[]>();
   @Output() campoDeFiltro = new EventEmitter<string>();
@@ -27,7 +27,7 @@ export class FiltroLlamadaLogComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private agentService: AgentService) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formInit();
     this.loadAgents();
     this.activatedRoute.params.subscribe(params => {
@@ -36,7 +36,7 @@ export class FiltroLlamadaLogComponent implements OnInit {
     });
   }
 
-  private formInit() {
+  formInit() {
     this.formGroup = this.formBuilder.group({
       startDate: [new Date(), Validators.required],
       endDate: [new Date(), Validators.required],
@@ -44,25 +44,25 @@ export class FiltroLlamadaLogComponent implements OnInit {
     })
   }
 
-  private loadAgents() {
+  loadAgents() {
     this.agentService.findActives().subscribe(agents => {
       this.agents = agents;
     })
   }
 
-  private findLogSupportById(supportId: number) {
+  findLogSupportById(supportId: number) {
     this.logsSupportService.fingLogByIdSupport(supportId).subscribe(logSupports => {
       this.llamadasFiltradas.emit(logSupports);
     });
   }
 
-  public findByCriterias() {
+  findByCriterias() {
     this.logsSupportService.findByCriterias(this.getCriterias()).subscribe((logs) => {
       this.llamadasFiltradas.emit(logs);
     });
   }
 
-  private getCriterias() {
+  getCriterias() {
     const criterias = {
       agentId: this.formGroup.value.agent,
       supportId: this.id,
@@ -72,7 +72,7 @@ export class FiltroLlamadaLogComponent implements OnInit {
     return criterias;
   }
 
-  public filterSupport(event: Event) {
+  filterSupport(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.campoDeFiltro.emit(filterValue.trim().toLowerCase());
   }
