@@ -13,16 +13,16 @@ export class TabAsesoresComponent {
 
   constructor(private agentService: AgentService) { }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.updateTable();
   }
 
-  public agentFilter(event: Event) {
+  agentFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterField.emit(filterValue.trim().toLowerCase());
   }
 
-  public updateTable() {
+  updateTable() {
     this.agentService.findAll().subscribe((asesoresObtenidos) => {
       this.refresh.emit(asesoresObtenidos);
     });
