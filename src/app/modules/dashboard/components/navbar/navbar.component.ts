@@ -10,18 +10,18 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class NavbarComponent {
 
-  public notifications: number = 20;
+  notifications: number = 20;
   @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router) { }
 
-  public toggleSideBar() {
+  toggleSideBar() {
     this.toggleSideBarForMe.emit();
   }
 
-  public logout() {
+  logout() {
     this.authenticationService.logout();
     this.router.navigate(['login']);
   }
