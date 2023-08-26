@@ -12,8 +12,8 @@ import { Agent } from 'src/app/core/models/agent';
 })
 export class TablaAsesoresComponent {
 
-  public dataSource: MatTableDataSource<Agent>;
-  public displayedColumns: string[] = [
+  dataSource: MatTableDataSource<Agent>;
+  displayedColumns: string[] = [
     'Foto', 'Primer Nombre', 'Primer Apellido',
     'Segundo Apellido', 'Tipo Identificacion', 'Identificacion',
     'Email', 'Tipo De Usuario', 'Estado', 'Acciones'];
@@ -22,16 +22,16 @@ export class TablaAsesoresComponent {
 
   constructor(private matSnackBar: MatSnackBar) { }
 
-  public updateTable(agents: Agent[]) {
+  updateTable(agents: Agent[]) {
     this.dataSource = new MatTableDataSource(agents);
     this.dataSource.paginator = this.paginator;
   }
 
-  public filterTable(value: string) {
+  filterTable(value: string) {
     this.dataSource.filter = value;
   }
 
-  public deletById(id: number) {
+  deletById(id: number) {
     this.matSnackBar.open('No esta autorizado para realizar esta operacion', '', {
       duration: 1500,
       horizontalPosition: 'center',
@@ -39,7 +39,7 @@ export class TablaAsesoresComponent {
     })
   }
 
-  public formatDate(fecha: Date) {
+  formatDate(fecha: Date) {
     return formatDate(fecha, 'dd/MM/yyy', 'en-ES');
   }
 
