@@ -10,30 +10,30 @@ import { MenuService } from 'src/app/services/menu/menu.service';
 })
 export class SidenavComponent implements OnInit {
 
-  public sideBarOpen = true;
-  public panelOpenState = false;
-  public agentConected: Agent;
-  public menu: any[];
+  sideBarOpen = true;
+  panelOpenState = false;
+  agentConected: Agent;
+  menu: any[];
 
   constructor(
     private menuService: MenuService,
     private authenticationService : AuthenticationService
     ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.loadMenu();
     this.userData();
   }
 
-  public sideBarToggler() {
+  sideBarToggler() {
     this.sideBarOpen = !this.sideBarOpen;
   }
 
-  private loadMenu() {
+  loadMenu() {
     this.menu = this.menuService.cargarSideNav();
   }
 
-  private userData(){
+  userData(){
     this.agentConected = this.authenticationService.getUserToken();
   }
 
