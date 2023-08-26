@@ -15,8 +15,8 @@ import { LogsSupportService } from 'src/app/services/llamadalog/logSupport.servi
 })
 export class TablaLlamadaLogComponent {
 
-  public dataSource: MatTableDataSource<LogSupport>;
-  public displayedColumns: string[] = 
+  dataSource: MatTableDataSource<LogSupport>;
+  displayedColumns: string[] = 
   ['Fecha/Hora', 'Asesor', 'Codigo', 
   'Razon Social', 'Contacto', 'Telefono', 
   'Tipo De Soporte', 'Estado', 'Ver'];
@@ -29,20 +29,20 @@ export class TablaLlamadaLogComponent {
     private logSupportService: LogsSupportService
   ) { }
 
-  public updateTable(logSupports: LogSupport[]) {
+  updateTable(logSupports: LogSupport[]) {
     this.dataSource = new MatTableDataSource(logSupports);
     this.dataSource.paginator = this.paginator;
   }
 
-  public filterTable(value: string) {
+  filterTable(value: string) {
     this.dataSource.filter = value;
   }
 
-  public formatDate(fecha: Date) {
+  formatDate(fecha: Date) {
     return formatDate(fecha, 'dd/MM/yyy hh:mm:ss', 'en-ES');
   }
 
-  public deleteById(id: number) {
+  deleteById(id: number) {
     this.matSnackBar.open('No esta autorizado para realizar esta operacion', '', {
       duration: 1500,
       horizontalPosition: 'center',
@@ -50,7 +50,7 @@ export class TablaLlamadaLogComponent {
     })
   }
 
-  public viewDatails(id: number) {
+  viewDatails(id: number) {
     this.logSupportService.buscarLogById(id).subscribe((logEncontrado) => {
       this.matDialog.open(DialogLlamadaLogComponent, {
         width: '100%',
