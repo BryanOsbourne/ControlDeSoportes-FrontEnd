@@ -134,29 +134,28 @@ export class FormularioDeLlamadasComponent implements OnInit {
     const agent = this.agents.find(item => item.id == this.formGroup.value.agent);
     const customer = this.customers.find(item => item.codigo == codigo);
 
-    if (!agent || !customer) {
-      return;
+    if (agent && customer) {
+      const support: Support = {
+        id,
+        startDate,
+        startTime,
+        agent,
+        customer,
+        supportType,
+        contact,
+        phone,
+        detail,
+        observation,
+        endDate,
+        endTime,
+        state
+      };
+
+      this.supportService.save(support).subscribe(() => {
+        this.router.navigate(["/Dashboard/ControlDeLlamadas"]);
+      });
+      
     }
-
-    const support: Support = {
-      id,
-      startDate,
-      startTime,
-      agent,
-      customer,
-      supportType,
-      contact,
-      phone,
-      detail,
-      observation,
-      endDate,
-      endTime,
-      state
-    };
-
-    this.supportService.save(support).subscribe(() => {
-      this.router.navigate(["/Dashboard/ControlDeLlamadas"]);
-    });
   }
 
 }

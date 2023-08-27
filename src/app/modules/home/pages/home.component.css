@@ -8,6 +8,11 @@
     margin: 30px;
     width: 200px;
     height: 230px;
+    justify-content: center;
+ }
+
+ .card img{
+   height: 85%;
  }
  
  .card:hover {

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from 'src/app/services/clients/customer.service';
 import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
@@ -18,7 +17,6 @@ export class FormularioDeClientesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private customerService: CustomerService,
     private router: Router,
-    private matSnackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     private dialogsService: DialogsService
   ) { }
@@ -47,12 +45,11 @@ export class FormularioDeClientesComponent implements OnInit {
   }
 
   findCustomerByCodigo(codigo: number) {
-    if (!codigo) {
-      return;
+    if (codigo) {
+      this.customerService.findByCodigo(codigo).subscribe((customer) => {
+        this.formGroup.setValue(customer);
+      });
     }
-    this.customerService.findByCodigo(codigo).subscribe((customer) => {
-      this.formGroup.setValue(customer);
-    });
   }
 
   openConfirmedDialog() {
@@ -64,7 +61,8 @@ export class FormularioDeClientesComponent implements OnInit {
   }
 
   saveCustomer() {
-    this.customerService.saveCustomer(this.formGroup.value).subscribe(() => {this.router.navigate(["/Dashboard/Clientes"])
+    this.customerService.saveCustomer(this.formGroup.value).subscribe(() => {
+      this.router.navigate(["/Dashboard/Clientes"])
     })
   }
 

@@ -50,12 +50,11 @@ export class FormularioDeAsesoresComponent implements OnInit {
   }
 
   findById(id: number) {
-    if (!id) {
-      return;
+    if (id) {
+      this.agentService.findById(id).subscribe((agent) => {
+        this.formGroup.setValue(agent);
+      });
     }
-    this.agentService.findById(id).subscribe((agent) => {
-      this.formGroup.setValue(agent);
-    });
   }
 
   openConfirmationDialog() {
@@ -68,7 +67,7 @@ export class FormularioDeAsesoresComponent implements OnInit {
 
   save() {
     this.formGroup.value.password = '';
-    this.agentService.save(this.formGroup.value).subscribe(() => { this.router.navigate(["/Dashboard/Asesores"])})
+    this.agentService.save(this.formGroup.value).subscribe(() => { this.router.navigate(["/Dashboard/Asesores"]) })
   }
 
   unlockForm() {
