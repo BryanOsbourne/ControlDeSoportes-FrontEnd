@@ -7,12 +7,16 @@ import { Observable } from 'rxjs';
 })
 export class ArchivoService {
 
-  URL_BASE = "http://localhost:8080/v1/app-ticket-trace/files";
+  URL_BASE = "http://localhost:8080/v1/app-ticket-trace/agents";
 
   constructor(private httpClient: HttpClient) { }
 
-  uploadUSerPhoto(formData: FormData): Observable<any> {
-    return this.httpClient.post(this.URL_BASE + '/upload', formData);
+  uploadUSerPhoto(formData: FormData, id : number): Observable<any> {
+    return this.httpClient.post(this.URL_BASE + '/upload', formData, {
+      params: {
+        agentId: id
+      }
+    });
   }
 
 }

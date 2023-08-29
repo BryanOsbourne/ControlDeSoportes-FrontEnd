@@ -61,27 +61,23 @@ export class InformacionDeUsuarioComponent implements OnInit {
     this.isBlocked = !this.isBlocked;
   }
 
-  openConfirmedDialog() {    this.dialogsService.successConfirmedDialog().then((confirmed) => {
+  openConfirmedDialog() {
+    this.dialogsService.successConfirmedDialog().then((confirmed) => {
       if (confirmed) {
         this.saveData();
       }
     });
   }
 
-  //TODO: Cuando se desea guardar los datos sin imagen genera error
   saveData() {
     if (this.matchPassword()) {
-      this.archivoService.uploadUSerPhoto(this.formData).subscribe((response) => {
-        this.formGroup.value.photo = response.url;
-        this.formGroup.value.state = this.formGroup.value.state === 'Activo' ? true : false;
-        this.authenticationService.updateProfile(this.formGroup.value).subscribe(() => {
-          this.authenticationService.logout();
-          this.router.navigate(['login']);
-        })
-      });
+      this.formGroup.value.state = this.formGroup.value.state === 'Activo' ? true : false;
+      this.authenticationService.updateProfile(this.formGroup.value).subscribe(() => {
+        this.authenticationService.logout();
+        this.router.navigate(['login']);
+      })
     }
   }
-
 
   matchPassword() {
     const password1 = this.formGroup.get('password')?.value;
@@ -101,7 +97,16 @@ export class InformacionDeUsuarioComponent implements OnInit {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
       this.formData.append('file', fileInput.files[0]);
-    };
+      this.archivoService.uploadUSerPhoto(this.formData, this.agentConnected.id).subscribe((response) => {
+        this.authenticationService.logout();
+        this.router.navigate(['login']);
+        this.matSnackBar.open('Actualizacion Exitosa', '', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom'
+        })
+      })
+    }
   }
 
 }
