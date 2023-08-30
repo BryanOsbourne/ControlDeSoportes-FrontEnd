@@ -35,7 +35,6 @@ export class InformacionDeUsuarioComponent implements OnInit {
   loadUserData() {
     this.agentConnected = this.authenticationService.getUserToken();
     this.formInit();
-
   }
 
   formInit() {
