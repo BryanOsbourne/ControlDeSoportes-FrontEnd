@@ -8,18 +8,10 @@ export class DialogsService {
 
   constructor() { }
 
-  successConfirmedDialog() {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-    });
-
+  confirmationDialog() {
     return Swal.fire({
       title: '¿Está seguro de continuar con esta operación?',
-      text: "¡No podrás revertir esta operacion!",
+      text: "",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -28,14 +20,9 @@ export class DialogsService {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire(
-          '¡Operación Exitosa!',
-          '',
-          'success'
-        );
         return true;
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        swalWithBootstrapButtons.fire(
+        Swal.fire(
           '¡Operación Cancelada!',
           '',
           'error'
@@ -46,15 +33,27 @@ export class DialogsService {
     });
   }
 
-  deleteConfirmedDialog() {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-    });
+  saveDialog() {
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: '¡Operación Exitosa!',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
 
+  errorDialog() {
+    Swal.fire({
+      position: 'center',
+      icon: 'error',
+      title: 'Oops... Algo salio mal',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
+
+  deleteConfirmedDialog() {
     return Swal.fire({
       title: '¿Está seguro de continuar con esta operación?',
       text: "¡No podrás revertir esta operacion!",
@@ -66,14 +65,9 @@ export class DialogsService {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire(
-          '¡Operación Exitosa!',
-          'El registro ha sido eliminado',
-          'success'
-        );
         return true;
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        swalWithBootstrapButtons.fire(
+        Swal.fire(
           '¡Operación Cancelada!',
           'No se elimino ningun registro',
           'error'

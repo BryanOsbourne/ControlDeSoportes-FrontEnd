@@ -30,4 +30,12 @@ export class AgentService {
     return this.httpClient.get<Agent>(this.URL_BASE_AGENT + '/findById?id=' + id);
   }
 
+  uploadUSerPhoto(formData: FormData, id : number): Observable<any> {
+    return this.httpClient.post(this.URL_BASE_AGENT + '/upload', formData, {
+      params: {
+        agentId: id
+      }
+    });
+  }
+
 }

@@ -122,7 +122,7 @@ export class FormularioDeLlamadasComponent implements OnInit {
   }
 
   openConfirmedDialog() {
-    this.dialogsService.successConfirmedDialog().then((confirmed) => {
+    this.dialogsService.confirmationDialog().then((confirmed) => {
       if (confirmed) {
         this.save()
       }
@@ -151,11 +151,16 @@ export class FormularioDeLlamadasComponent implements OnInit {
         state
       };
 
-      this.supportService.save(support).subscribe(() => {
-        this.router.navigate(["/Dashboard/ControlDeLlamadas"]);
-      });
-      
+      this.supportService.save(support).subscribe((support) => {
+        if (support) {
+          this.dialogsService.saveDialog();
+          this.router.navigate(["/Dashboard/ControlDeLlamadas"]);
+        } else {
+          this.dialogsService.errorDialog();
+        }
+      }, () => this.dialogsService.errorDialog());
     }
+    
   }
 
 }

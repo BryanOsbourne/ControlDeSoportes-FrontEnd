@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
 
 
 @Component({
@@ -15,15 +16,21 @@ export class NavbarComponent {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router) { }
+    private router: Router,
+    private dialogService: DialogsService
+  ) { }
 
   toggleSideBar() {
     this.toggleSideBarForMe.emit();
   }
 
   logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['login']);
+    this.dialogService.confirmationDialog().then((confirmed) => {
+      if (confirmed) {
+        this.authenticationService.logout();
+        this.router.navigate(['login']);
+      }
+    });
   }
 
 }

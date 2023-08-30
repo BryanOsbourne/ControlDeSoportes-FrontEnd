@@ -53,7 +53,7 @@ export class FormularioDeClientesComponent implements OnInit {
   }
 
   openConfirmedDialog() {
-    this.dialogsService.successConfirmedDialog().then((confirmed) => {
+    this.dialogsService.confirmationDialog().then((confirmed) => {
       if (confirmed) {
         this.saveCustomer();
       }
@@ -61,9 +61,14 @@ export class FormularioDeClientesComponent implements OnInit {
   }
 
   saveCustomer() {
-    this.customerService.saveCustomer(this.formGroup.value).subscribe(() => {
-      this.router.navigate(["/Dashboard/Clientes"])
-    })
+    this.customerService.saveCustomer(this.formGroup.value).subscribe((customer) => {
+      if (customer) {
+        this.dialogsService.saveDialog();
+        this.router.navigate(["/Dashboard/Clientes"])
+      } else {
+        this.dialogsService.errorDialog();
+      }
+    }, () => this.dialogsService.errorDialog());
   }
 
 }

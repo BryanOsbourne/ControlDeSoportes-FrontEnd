@@ -12,7 +12,7 @@
             <mat-card-header *ngIf="!this.formGroup.value.id">
                 <mat-card-title>
                     <img class="profile-image"
-                        src="http://localhost:8080/v1/app-ticket-trace/files/userPhoto/userdefault.png"
+                        src="http://localhost:8080/v1/app-ticket-trace/agents/userPhoto/userdefault.png"
                         alt="perfil.png">
                     Ingrese los datos del agente
                     <mat-card-subtitle>Nuevo Registro</mat-card-subtitle>
@@ -95,7 +95,7 @@
                     <div class="col-xxl-8">
                         <mat-form-field appearance="outline">
                             <mat-label>Email</mat-label>
-                            <input matInput autocomplete="off" formControlName="email" [readonly]="!isBlocked">
+                            <input type="email" matInput autocomplete="off" formControlName="email" [readonly]="!isBlocked">
                         </mat-form-field>
                     </div>
 

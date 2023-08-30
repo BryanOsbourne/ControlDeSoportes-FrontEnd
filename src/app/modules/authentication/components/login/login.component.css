@@ -4,7 +4,8 @@
 }
 
 .box-left {
-    background-color: rebeccapurple;
+    background: url('../../../../../assets/img/bg.jpeg');
+    background-size: cover;
 }
 
 .box-right {

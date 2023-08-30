@@ -1,4 +1,3 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Agent } from 'src/app/core/models/agent';
@@ -7,7 +6,6 @@ import { Support } from 'src/app/core/models/support';
 import { AgentService } from 'src/app/services/asesores/agent.service';
 import { CustomerService } from 'src/app/services/clients/customer.service';
 import { SupportService } from 'src/app/services/llamadas/support.service';
-import { ReportService } from 'src/app/services/reportes/report.service';
 
 @Component({
   selector: 'app-filtro-de-llamadas',
@@ -29,8 +27,7 @@ export class FiltroDeLlamadasComponent implements OnInit {
     private customerService: CustomerService,
     private agentService: AgentService,
     private formBuilder: FormBuilder,
-    private supportService: SupportService,
-    private reportService: ReportService) {
+    private supportService: SupportService) {
   }
 
   ngOnInit() {

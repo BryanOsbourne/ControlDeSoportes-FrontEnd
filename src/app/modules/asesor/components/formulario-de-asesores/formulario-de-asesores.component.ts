@@ -21,7 +21,6 @@ export class FormularioDeAsesoresComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private agentService: AgentService,
-    private matSnackBar: MatSnackBar,
     private dialogsService: DialogsService
   ) { }
 
@@ -58,7 +57,7 @@ export class FormularioDeAsesoresComponent implements OnInit {
   }
 
   openConfirmationDialog() {
-    this.dialogsService.successConfirmedDialog().then((confirmed) => {
+    this.dialogsService.confirmationDialog().then((confirmed) => {
       if (confirmed) {
         this.save();
       }
@@ -67,7 +66,14 @@ export class FormularioDeAsesoresComponent implements OnInit {
 
   save() {
     this.formGroup.value.password = '';
-    this.agentService.save(this.formGroup.value).subscribe(() => { this.router.navigate(["/Dashboard/Asesores"]) })
+    this.agentService.save(this.formGroup.value).subscribe((agent) => {
+      if (agent) {
+        this.dialogsService.saveDialog();
+        this.router.navigate(["/Dashboard/Asesores"])
+      } else {
+        this.dialogsService.errorDialog();
+      }
+    }, () => this.dialogsService.errorDialog());
   }
 
   unlockForm() {

@@ -45,11 +45,11 @@ export class TablaDeLlamadasComponent {
   }
 
   openConfirmationDialog(id: number) {
-    this.dialogsService.deleteConfirmedDialog().then((confirmed) => {
-      if (confirmed) {
-        this.deleteById(id);
-      }
-    });
+    this.matSnackBar.open('No esta autorizado para realizar esta operacion', '', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
   }
 
   formatDate(fecha: Date) {
