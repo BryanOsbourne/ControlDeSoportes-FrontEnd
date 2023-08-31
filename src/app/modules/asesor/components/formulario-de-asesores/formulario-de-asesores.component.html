@@ -4,7 +4,8 @@
 
             <mat-card-header *ngIf="this.formGroup.value.id; else elseBlock">
                 <mat-card-title>
-                    <img class="profile-image" [src]="this.formGroup.value.photo" alt="perfil.png">
+                    <img class="profile-image" src="../../../../../assets/img/logo.png" alt="perfil.png">
+              <!--  <img class="profile-image" [src]="this.formGroup.value.photo" alt="perfil.png"> -->
                     {{this.formGroup.value.firstName + ' ' + this.formGroup.value.lastName}}
                     <mat-card-subtitle>{{this.formGroup.value.role}}</mat-card-subtitle>
                 </mat-card-title>
