@@ -4,7 +4,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Support } from 'src/app/core/models/support';
-import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
 
 @Component({
   selector: 'app-tabla-de-llamadas',
@@ -23,8 +22,7 @@ export class TablaDeLlamadasComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private matSnackBar: MatSnackBar,
-    private dialogsService: DialogsService
+    private matSnackBar: MatSnackBar
   ) { }
 
   updateTable(supports: Support[]) {

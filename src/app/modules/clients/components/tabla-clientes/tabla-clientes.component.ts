@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Customer } from 'src/app/core/models/customer';
+import { Support } from 'src/app/core/models/support';
 
 @Component({
   selector: 'app-tabla-clientes',

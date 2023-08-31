@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AgentService } from 'src/app/services/asesores/agent.service';
 import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
 
@@ -15,6 +15,7 @@ export class FormularioDeAsesoresComponent implements OnInit {
 
   formGroup: FormGroup;
   isBlocked = false;
+  subscriptions: Array<Subscription> = new Array();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,6 +29,12 @@ export class FormularioDeAsesoresComponent implements OnInit {
     this.formInit();
     const id = this.activatedRoute.snapshot.params['id'];
     this.findById(id);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
   }
 
   formInit() {
@@ -50,9 +57,11 @@ export class FormularioDeAsesoresComponent implements OnInit {
 
   findById(id: number) {
     if (id) {
-      this.agentService.findById(id).subscribe((agent) => {
-        this.formGroup.setValue(agent);
-      });
+      this.subscriptions.push(
+        this.agentService.findById(id).subscribe((agent) => {
+          this.formGroup.setValue(agent);
+        })
+      );
     }
   }
 
@@ -66,14 +75,16 @@ export class FormularioDeAsesoresComponent implements OnInit {
 
   save() {
     this.formGroup.value.password = '';
-    this.agentService.save(this.formGroup.value).subscribe((agent) => {
-      if (agent) {
-        this.dialogsService.saveDialog();
-        this.router.navigate(["/Dashboard/Asesores"])
-      } else {
-        this.dialogsService.errorDialog();
-      }
-    }, () => this.dialogsService.errorDialog());
+    this.subscriptions.push(
+      this.agentService.save(this.formGroup.value).subscribe((agent) => {
+        if (agent) {
+          this.dialogsService.saveDialog();
+          this.router.navigate(["/Dashboard/Asesores"])
+        } else {
+          this.dialogsService.errorDialog();
+        }
+      }, () => this.dialogsService.errorDialog())
+    );
   }
 
   unlockForm() {

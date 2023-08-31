@@ -1,7 +1,7 @@
 <div class="row mt-2">
     <div class="col-xl-5 mt-3">
         <mat-card class="border rounded-4 p-4">
-            
+
             <mat-card-header>
                 <mat-card-title>
                     <img class="profile-image" [src]="agentConnected.photo" alt="perfil.png">
@@ -93,7 +93,7 @@
                     <div class="col-xxl-6">
                         <mat-form-field appearance="outline">
                             <mat-label>Numero Identificacion:</mat-label>
-                            <input type="number" matInput autocomplete="off" formControlName="ccNit"
+                            <input type="number" matInput autocomplete="off" formControlName="ccNit" min="0"
                                 [readonly]="!isBlocked">
                         </mat-form-field>
                     </div>

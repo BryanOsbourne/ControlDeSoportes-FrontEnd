@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Support } from 'src/app/core/models/support';
+import { API_SERVICE } from 'src/app/core/constants/serverConstans';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Support } from 'src/app/core/models/support';
 
 export class SupportService {
 
-  URL_BASE = "http://localhost:8080/v1/app-ticket-trace/supports";
+  URL_BASE = API_SERVICE  +"/supports";
 
   constructor(private httpClient: HttpClient) { }
 

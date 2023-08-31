@@ -2,23 +2,25 @@
     <div class="col-xl-6 mt-3">
         <mat-card class="border rounded-4 p-4">
 
-            <mat-card-header *ngIf="this.formGroup.value.id">
+            <mat-card-header *ngIf="this.formGroup.value.id; else elseBlock">
                 <mat-card-title>
                     <img class="profile-image" [src]="this.formGroup.value.photo" alt="perfil.png">
                     {{this.formGroup.value.firstName + ' ' + this.formGroup.value.lastName}}
                     <mat-card-subtitle>{{this.formGroup.value.role}}</mat-card-subtitle>
                 </mat-card-title>
             </mat-card-header>
-            <mat-card-header *ngIf="!this.formGroup.value.id">
-                <mat-card-title>
-                    <img class="profile-image"
-                        src="http://localhost:8080/v1/app-ticket-trace/agents/userPhoto/userdefault.png"
-                        alt="perfil.png">
-                    Ingrese los datos del agente
-                    <mat-card-subtitle>Nuevo Registro</mat-card-subtitle>
-                </mat-card-title>
-            </mat-card-header>
-
+            <ng-template #elseBlock>
+                <mat-card-header>
+                    <mat-card-title>
+                        <img class="profile-image"
+                            src="../../../../../assets/img/logo.png"
+                            alt="perfil.png">
+                        Ingrese los datos del agente
+                        <mat-card-subtitle>Nuevo Registro</mat-card-subtitle>
+                    </mat-card-title>
+                </mat-card-header>
+            </ng-template>
+            
             <mat-card-content>
 
                 <mat-slide-toggle class="mb-3" color="warn" (change)=" unlockForm()">
@@ -87,7 +89,7 @@
                     <div class="col-xxl-6">
                         <mat-form-field appearance="outline">
                             <mat-label>Numero Identificacion</mat-label>
-                            <input type="number" matInput autocomplete="off" formControlName="ccNit"
+                            <input type="number" matInput autocomplete="off" formControlName="ccNit" min="0"
                                 [readonly]="!isBlocked">
                         </mat-form-field>
                     </div>
@@ -95,7 +97,8 @@
                     <div class="col-xxl-8">
                         <mat-form-field appearance="outline">
                             <mat-label>Email</mat-label>
-                            <input type="email" matInput autocomplete="off" formControlName="email" [readonly]="!isBlocked">
+                            <input type="email" matInput autocomplete="off" formControlName="email"
+                                [readonly]="!isBlocked">
                         </mat-form-field>
                     </div>
 

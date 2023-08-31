@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API_SERVICE } from 'src/app/core/constants/serverConstans';
 import { LogSupport } from 'src/app/core/models/logSupport';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { LogSupport } from 'src/app/core/models/logSupport';
 
 export class LogsSupportService {
 
-  URL_BASE_AUTHENTICATION = "http://localhost:8080/v1/app-ticket-trace/log-supports";
+  URL_BASE_AUTHENTICATION = API_SERVICE + "/log-supports";
 
   constructor(private httpClient: HttpClient) { }
 

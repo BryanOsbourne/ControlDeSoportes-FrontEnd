@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
@@ -13,17 +14,24 @@ export class FormularioDeCambioDeContrasenaComponent implements OnInit {
 
   isRecover = false;
   formGroup: FormGroup;
+  subscriptions: Array<Subscription> = new Array();
 
   constructor(
     private formBuilder: FormBuilder,
     private matSnackBar: MatSnackBar,
     private authenticationService: AuthenticationService,
     private router: Router,
-    ) {
+  ) {
   }
 
   ngOnInit() {
     this.formInit();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
   }
 
   formInit() {
@@ -34,19 +42,21 @@ export class FormularioDeCambioDeContrasenaComponent implements OnInit {
 
   recoverAccount() {
     const username = this.formGroup.value.username;
-    this.authenticationService.recoverByUsername(username).subscribe((peticionEnviada) => {
-      if(peticionEnviada){
-        this.findUser();
-      }
-    },
-      () => {
-        this.matSnackBar.open('Error Al Enviar La Solicitud', '', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom'
+    this.subscriptions.push(
+      this.authenticationService.recoverByUsername(username).subscribe((peticionEnviada) => {
+        if (peticionEnviada) {
+          this.findUser();
+        }
+      },
+        () => {
+          this.matSnackBar.open('Error Al Enviar La Solicitud', '', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          })
+          this.formGroup.reset();
         })
-        this.formGroup.reset();
-      })
+    );
   }
 
   findUser() {

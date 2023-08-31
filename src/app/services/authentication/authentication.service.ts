@@ -5,6 +5,7 @@ import { Agent } from 'src/app/core/models/agent';
 import jwt_decode from 'jwt-decode';
 import { AuthenticationResponse } from 'src/app/core/models/AuthenticationResponse';
 import { AuthenticationRequest } from 'src/app/core/models/AuthenticationRequest';
+import { API_SERVICE } from 'src/app/core/constants/serverConstans';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { AuthenticationRequest } from 'src/app/core/models/AuthenticationRequest
 
 export class AuthenticationService {
 
-  URL_BASE_AUTHENTICATION = "http://localhost:8080/v1/app-ticket-trace/authentication";
+  URL_BASE_AUTHENTICATION = API_SERVICE + "/authentication";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -40,7 +41,7 @@ export class AuthenticationService {
     const token = this.getToken();
     if (token) {
       const decodedToken: any = jwt_decode(token);
-      return  decodedToken.asesor;
+      return decodedToken.asesor;
     }
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
 
   isLogged = false;
   formGroup: FormGroup;
+  subscriptions: Array<Subscription> = new Array();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,6 +28,12 @@ export class LoginComponent implements OnInit {
     this.formInit();
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
   formInit() {
     this.formGroup = this.formBuilder.group({
       username: ['', Validators.required],
@@ -34,14 +42,16 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
-      this.authenticationService.setToken(AuthenticationResponse);
-      this.loading();
-    },
-      (error) => {
-        this.error();
-        this.formGroup.reset();
-      })
+    this.subscriptions.push(
+      this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
+        this.authenticationService.setToken(AuthenticationResponse);
+        this.loading();
+      },
+        () => {
+          this.error();
+          this.formGroup.reset();
+        })
+    );
   }
 
   loading() {

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { Agent } from 'src/app/core/models/agent';
 import { Customer } from 'src/app/core/models/customer';
 import { Support } from 'src/app/core/models/support';
@@ -19,6 +20,7 @@ export class FiltroDeLlamadasComponent implements OnInit {
   agents: Agent[];
   customers: Customer[];
   supports: Support[];
+  subscriptions: Array<Subscription> = new Array();
 
   @Output() supportsFilter = new EventEmitter<Support[]>();
   @Output() filterField = new EventEmitter<string>();
@@ -37,6 +39,12 @@ export class FiltroDeLlamadasComponent implements OnInit {
     this.generateQuery();
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
   formInit() {
     this.formGroup = this.formBuilder.group({
       startDate: [new Date()],
@@ -51,21 +59,27 @@ export class FiltroDeLlamadasComponent implements OnInit {
   }
 
   loadAgents() {
-    this.agentService.findActives().subscribe((agentActives) => {
-      this.agents = agentActives;
-    })
+    this.subscriptions.push(
+      this.agentService.findActives().subscribe((agentActives) => {
+        this.agents = agentActives;
+      })
+    );
   }
 
   loadCustomers() {
-    this.customerService.findCustomerActive().subscribe((customerActives) => {
-      this.customers = customerActives;
-    })
+    this.subscriptions.push(
+      this.customerService.findCustomerActive().subscribe((customerActives) => {
+        this.customers = customerActives;
+      })
+    );
   }
 
   generateQuery() {
-    this.supportService.findByCriteria(this.getCriteria()).subscribe((supports) => {
-      this.supportsFilter.emit(supports);
-    });
+    this.subscriptions.push(
+      this.supportService.findByCriteria(this.getCriteria()).subscribe((supports) => {
+        this.supportsFilter.emit(supports);
+      })
+    );
   }
 
   getCriteria() {

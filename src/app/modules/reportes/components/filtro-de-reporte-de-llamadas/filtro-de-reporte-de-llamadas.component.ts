@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { Agent } from 'src/app/core/models/agent';
 import { Customer } from 'src/app/core/models/customer';
 import { Support } from 'src/app/core/models/support';
@@ -19,6 +20,7 @@ export class FiltroDeReporteDeLlamadasComponent {
   agents: Agent[];
   customers: Customer[];
   supports: Support[];
+  subscriptions: Array<Subscription> = new Array();
 
   @Output() supportsFilter = new EventEmitter<Support[]>();
 
@@ -36,6 +38,12 @@ export class FiltroDeReporteDeLlamadasComponent {
     this.loadCustomers();
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
   formInit() {
     this.formGroup = this.formBuilder.group({
       startDate: [new Date()],
@@ -49,19 +57,28 @@ export class FiltroDeReporteDeLlamadasComponent {
     })
   }
 
-  loadAgents() {    this.agentService.findActives().subscribe((agentActives) => {
-      this.agents = agentActives;
-    })
+  loadAgents() {
+    this.subscriptions.push(
+      this.agentService.findActives().subscribe((agentActives) => {
+        this.agents = agentActives;
+      })
+    );
   }
 
-  loadCustomers() {    this.customerService.findCustomerActive().subscribe((customerActives) => {
-      this.customers = customerActives;
-    })
+  loadCustomers() {
+    this.subscriptions.push(
+      this.customerService.findCustomerActive().subscribe((customerActives) => {
+        this.customers = customerActives;
+      })
+    );
   }
 
-  generateQuery() {    this.supportService.findByCriteria(this.getCriteria()).subscribe((supports) => {
-      this.supportsFilter.emit(supports);
-    });
+  generateQuery() {
+    this.subscriptions.push(
+      this.supportService.findByCriteria(this.getCriteria()).subscribe((supports) => {
+        this.supportsFilter.emit(supports)
+      })
+    );
   }
 
   getCriteria() {
@@ -76,9 +93,12 @@ export class FiltroDeReporteDeLlamadasComponent {
     return criterias;
   }
 
-  downloadExcel() {    this.reportService.getReport(this.getCriteria()).subscribe((response) => {
-      this.reportService.manageExcelFile(response, "Soportes")
-    });
+  downloadExcel() {
+    this.subscriptions.push(
+      this.reportService.getReport(this.getCriteria()).subscribe((response) => {
+        this.reportService.manageExcelFile(response, "Soportes")
+      })
+    );
   }
-  
+
 }

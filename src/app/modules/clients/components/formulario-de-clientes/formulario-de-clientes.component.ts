@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CustomerService } from 'src/app/services/clients/customer.service';
 import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
 
@@ -12,6 +13,7 @@ import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
 export class FormularioDeClientesComponent implements OnInit {
 
   formGroup: FormGroup;
+  subscriptions: Array<Subscription> = new Array();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -25,6 +27,12 @@ export class FormularioDeClientesComponent implements OnInit {
     this.formInit();
     const codigo = this.activatedRoute.snapshot.params['codigo'];
     this.findCustomerByCodigo(codigo);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
   }
 
   formInit() {
@@ -46,9 +54,11 @@ export class FormularioDeClientesComponent implements OnInit {
 
   findCustomerByCodigo(codigo: number) {
     if (codigo) {
-      this.customerService.findByCodigo(codigo).subscribe((customer) => {
-        this.formGroup.setValue(customer);
-      });
+      this.subscriptions.push(
+        this.customerService.findByCodigo(codigo).subscribe((customer) => {
+          this.formGroup.setValue(customer);
+        })
+      );
     }
   }
 
@@ -61,14 +71,16 @@ export class FormularioDeClientesComponent implements OnInit {
   }
 
   saveCustomer() {
-    this.customerService.saveCustomer(this.formGroup.value).subscribe((customer) => {
-      if (customer) {
-        this.dialogsService.saveDialog();
-        this.router.navigate(["/Dashboard/Clientes"])
-      } else {
-        this.dialogsService.errorDialog();
-      }
-    }, () => this.dialogsService.errorDialog());
+    this.subscriptions.push(
+      this.customerService.saveCustomer(this.formGroup.value).subscribe((customer) => {
+        if (customer) {
+          this.dialogsService.saveDialog();
+          this.router.navigate(["/Dashboard/Clientes"])
+        } else {
+          this.dialogsService.errorDialog();
+        }
+      }, () => this.dialogsService.errorDialog())
+    );
   }
 
 }

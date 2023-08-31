@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { DialogLlamadaLogComponent } from 'src/app/core/components/dialog-llamada-log/dialog-llamada-log.component';
 import { LogSupport } from 'src/app/core/models/logSupport';
 import { LogsSupportService } from 'src/app/services/llamadalog/logSupport.service';
@@ -16,10 +17,11 @@ import { LogsSupportService } from 'src/app/services/llamadalog/logSupport.servi
 export class TablaLlamadaLogComponent {
 
   dataSource: MatTableDataSource<LogSupport>;
-  displayedColumns: string[] = 
-  ['Fecha/Hora', 'Asesor', 'Codigo', 
-  'Razon Social', 'Contacto', 'Telefono', 
-  'Tipo De Soporte', 'Estado', 'Ver'];
+  displayedColumns: string[] =
+    ['Fecha/Hora', 'Asesor', 'Codigo',
+      'Razon Social', 'Contacto', 'Telefono',
+      'Tipo De Soporte', 'Estado', 'Ver'];
+  subscriptions: Array<Subscription> = new Array();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -28,6 +30,12 @@ export class TablaLlamadaLogComponent {
     private matDialog: MatDialog,
     private logSupportService: LogsSupportService
   ) { }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
 
   updateTable(logSupports: LogSupport[]) {
     this.dataSource = new MatTableDataSource(logSupports);
@@ -51,13 +59,15 @@ export class TablaLlamadaLogComponent {
   }
 
   viewDatails(id: number) {
-    this.logSupportService.buscarLogById(id).subscribe((logEncontrado) => {
-      this.matDialog.open(DialogLlamadaLogComponent, {
-        width: '100%',
-        height: '90%',
-        data: logEncontrado,
-      });
-    });
+    this.subscriptions.push(
+      this.logSupportService.buscarLogById(id).subscribe((logEncontrado) => {
+        this.matDialog.open(DialogLlamadaLogComponent, {
+          width: '100%',
+          height: '90%',
+          data: logEncontrado,
+        })
+      })
+    );
   }
-  
+
 }

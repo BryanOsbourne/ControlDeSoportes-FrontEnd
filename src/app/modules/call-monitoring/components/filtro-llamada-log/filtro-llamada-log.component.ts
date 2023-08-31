@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Agent } from 'src/app/core/models/agent';
 import { LogSupport } from 'src/app/core/models/logSupport';
 import { AgentService } from 'src/app/services/asesores/agent.service';
@@ -17,6 +18,7 @@ export class FiltroLlamadaLogComponent implements OnInit {
   id: number;
   formGroup: FormGroup;
   agents: Agent[];
+  subscriptions: Array<Subscription> = new Array();
 
   @Output() llamadasFiltradas = new EventEmitter<LogSupport[]>();
   @Output() campoDeFiltro = new EventEmitter<string>();
@@ -36,6 +38,12 @@ export class FiltroLlamadaLogComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
   formInit() {
     this.formGroup = this.formBuilder.group({
       startDate: [new Date(), Validators.required],
@@ -45,21 +53,27 @@ export class FiltroLlamadaLogComponent implements OnInit {
   }
 
   loadAgents() {
-    this.agentService.findActives().subscribe(agents => {
-      this.agents = agents;
-    })
+    this.subscriptions.push(
+      this.agentService.findActives().subscribe(agents => {
+        this.agents = agents;
+      })
+    );
   }
 
   findLogSupportById(supportId: number) {
-    this.logsSupportService.fingLogByIdSupport(supportId).subscribe(logSupports => {
-      this.llamadasFiltradas.emit(logSupports);
-    });
+    this.subscriptions.push(
+      this.logsSupportService.fingLogByIdSupport(supportId).subscribe(logSupports => {
+        this.llamadasFiltradas.emit(logSupports);
+      })
+    );
   }
 
   findByCriterias() {
-    this.logsSupportService.findByCriterias(this.getCriterias()).subscribe((logs) => {
-      this.llamadasFiltradas.emit(logs);
-    });
+    this.subscriptions.push(
+      this.logsSupportService.findByCriterias(this.getCriterias()).subscribe((logs) => {
+        this.llamadasFiltradas.emit(logs);
+      })
+    );
   }
 
   getCriterias() {

@@ -6,10 +6,10 @@
     </mat-card-header>
     <mat-card-content>
         <form class="row mt-4" [formGroup]="formGroup" (ngSubmit)="openConfirmedDialog()">
-            <!--Datalle de Cliente-->
+            <!--Detalle de Cliente-->
             <div class="col-xxl-6">
                 <mat-card class="border rounded-5 mt-3">
-                    <mat-card-header>
+                    <mat-card-header class="mb-3">
                         <mat-card-title>Datos Del Cliente</mat-card-title>
                         <mat-card-subtitle></mat-card-subtitle>
                     </mat-card-header>
@@ -103,7 +103,7 @@
             <!--Datalle de llamada-->
             <div class="col-xxl-6">
                 <mat-card class="border rounded-5 mt-3">
-                    <mat-card-header>
+                    <mat-card-header class="mb-3" >
                         <mat-card-title>Detalles Del Soporte</mat-card-title>
                         <mat-card-subtitle></mat-card-subtitle>
                     </mat-card-header>
@@ -112,10 +112,7 @@
                             <div class="col-xxl-6">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Asesor:</mat-label>
-                                    <mat-select formControlName="agent">
-                                        <mat-option *ngFor="let agent of agents"
-                                            [value]="agent.id">{{agent.firstName}}</mat-option>
-                                    </mat-select>
+                                    <input matInput autocomplete="off" formControlName="agent" readonly="true">
                                 </mat-form-field>
                             </div>
                             <div class="col-xxl-6">
@@ -151,7 +148,7 @@
                             <div class="col-xxl-6">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Telefono:</mat-label>
-                                    <input type="number" matInput autocomplete="off" formControlName="phone">
+                                    <input type="number" matInput autocomplete="off" formControlName="phone" min="0">
                                 </mat-form-field>
                             </div>
                             <div class="col-xxl-4">

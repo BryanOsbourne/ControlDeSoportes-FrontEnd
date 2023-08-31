@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Agent } from 'src/app/core/models/agent';
+import { API_SERVICE } from 'src/app/core/constants/serverConstans';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,8 @@ import { Agent } from 'src/app/core/models/agent';
 
 export class AgentService {
 
-  URL_BASE_AUTHENTICATION = "http://localhost:8080/v1/app-ticket-trace/authentication";
-  URL_BASE_AGENT = "http://localhost:8080/v1/app-ticket-trace/agents";
+  URL_BASE_AUTHENTICATION = API_SERVICE + "/authentication";
+  URL_BASE_AGENT = API_SERVICE + "/agents";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -30,7 +31,7 @@ export class AgentService {
     return this.httpClient.get<Agent>(this.URL_BASE_AGENT + '/findById?id=' + id);
   }
 
-  uploadUSerPhoto(formData: FormData, id : number): Observable<any> {
+  uploadUSerPhoto(formData: FormData, id: number): Observable<any> {
     return this.httpClient.post(this.URL_BASE_AGENT + '/upload', formData, {
       params: {
         agentId: id

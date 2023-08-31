@@ -78,4 +78,24 @@ export class DialogsService {
     });
   }
 
+  loadDialog() {
+    return Swal.fire({
+      title: '¿Desea cargar registros anteriores?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        return true;
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        return false;
+      }
+      return false;
+    });
+  }
+
 }

@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API_SERVICE } from 'src/app/core/constants/serverConstans';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
 
-  URL_BASE = "http://localhost:8080/v1/app-ticket-trace/reports";
+  URL_BASE = API_SERVICE + "/reports";
 
   constructor(private httpClient: HttpClient) { }
 
