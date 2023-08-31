@@ -42,16 +42,16 @@ export class LoginComponent implements OnInit {
   }
   
   login() {
-      this.subscriptions.push(
-        this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
-          this.authenticationService.setToken(AuthenticationResponse);
-          this.loading();
-        },
-          () => {
-            this.error();
-            this.formGroup.reset();
-          })
-      );
+    this.subscriptions.push(
+      this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
+        this.authenticationService.setToken(AuthenticationResponse);
+        this.loading();
+      },
+         () => {
+          this.error();
+          this.formGroup.reset();
+        })
+    );
   }
   
   loading() {
