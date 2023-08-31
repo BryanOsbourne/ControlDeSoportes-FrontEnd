@@ -40,8 +40,8 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     })
   }
-  /*
-    login() {
+  
+  login() {
       this.subscriptions.push(
         this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
           this.authenticationService.setToken(AuthenticationResponse);
@@ -52,10 +52,6 @@ export class LoginComponent implements OnInit {
             this.formGroup.reset();
           })
       );
-    }
-  */
-  login() {
-    this.loading();
   }
   
   loading() {
