@@ -40,20 +40,24 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     })
   }
-
+  /*
+    login() {
+      this.subscriptions.push(
+        this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
+          this.authenticationService.setToken(AuthenticationResponse);
+          this.loading();
+        },
+          () => {
+            this.error();
+            this.formGroup.reset();
+          })
+      );
+    }
+  */
   login() {
-    this.subscriptions.push(
-      this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
-        this.authenticationService.setToken(AuthenticationResponse);
-        this.loading();
-      },
-        () => {
-          this.error();
-          this.formGroup.reset();
-        })
-    );
+    this.loading();
   }
-
+  
   loading() {
     this.isLogged = true;
     setTimeout(() => {
