@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     })
   }
-  /*
+  
   login() {
     this.subscriptions.push(
       this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
@@ -53,10 +53,11 @@ export class LoginComponent implements OnInit {
         })
     );
   }
-  */
+  /*
     login() {
     this.loading();
   }
+  */
   
   loading() {
     this.isLogged = true;
