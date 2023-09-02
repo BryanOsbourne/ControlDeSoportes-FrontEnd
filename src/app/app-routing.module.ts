@@ -15,8 +15,8 @@ const routes: Routes = [
   },
   {
     path: 'Dashboard',
-    loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)//,
-//    canActivate: [AuthenticationGuard]
+    loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),
+    canActivate: [AuthenticationGuard]
   },
   {
     path: 'Authentication/ResetPassword',
