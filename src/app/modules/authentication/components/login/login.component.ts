@@ -53,11 +53,6 @@ export class LoginComponent implements OnInit {
         })
     );
   }
-  /*
-    login() {
-    this.loading();
-  }
-  */
   
   loading() {
     this.isLogged = true;

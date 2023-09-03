@@ -1,21 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API_SERVICE } from 'src/app/core/constants/serverConstans';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
 
-  URL_BASE = API_SERVICE + "/reports";
+  URL_BASE = "/reports";
 
   constructor(private httpClient: HttpClient) { }
 
   getReport(parametros: any): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.httpClient.get(
-      this.URL_BASE + '/export-supports',
+      environment.urlBase + this.URL_BASE + '/export-supports',
       {
         headers,
         responseType: 'blob' as 'json',
