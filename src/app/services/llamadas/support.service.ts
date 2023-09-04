@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 
 export class SupportService {
 
-  URL_BASE = + "/supports";
+  URL_BASE = "/supports";
 
   constructor(private httpClient: HttpClient) { }
 
