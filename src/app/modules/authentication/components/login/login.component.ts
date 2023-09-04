@@ -48,7 +48,8 @@ export class LoginComponent implements OnInit {
         this.loading();
       },
          () => {
-          this.error();
+          //this.error();
+          this.loading();
           this.formGroup.reset();
         })
     );
