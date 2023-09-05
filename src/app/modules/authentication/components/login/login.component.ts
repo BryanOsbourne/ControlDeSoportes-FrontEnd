@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['Dashboard']);
       this.isLogged = false;
       this.formGroup.reset();
-    }, 1500);
+    }, 1000);
   }
 
   error(): void {

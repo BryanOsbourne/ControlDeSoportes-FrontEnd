@@ -27,7 +27,7 @@ export class CustomerService {
   }
 
   findCustomerActive(): Observable<Customer[]> {
-    return this.httpClient.get<Customer[]>(this.URL_BASE + '/findActives');
+    return this.httpClient.get<Customer[]>(environment.urlBase + this.URL_BASE + '/findActives');
   }
 
 }

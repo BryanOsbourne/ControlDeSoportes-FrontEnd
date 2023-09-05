@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 
 export class SupportService {
 
-  URL_BASE = + "/supports";
+  URL_BASE = "/supports";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -43,9 +43,6 @@ export class SupportService {
     };
     return this.httpClient.get<Support[]>(environment.urlBase + this.URL_BASE + '/findByCriterias', params);
   }
-
-
-
 
 }
 
