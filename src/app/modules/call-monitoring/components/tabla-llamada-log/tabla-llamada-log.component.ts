@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { DialogLlamadaLogComponent } from 'src/app/core/components/dialog-llamada-log/dialog-llamada-log.component';
 import { LogSupport } from 'src/app/core/models/logSupport';
 import { LogsSupportService } from 'src/app/services/llamadalog/logSupport.service';
@@ -15,11 +16,12 @@ import { LogsSupportService } from 'src/app/services/llamadalog/logSupport.servi
 })
 export class TablaLlamadaLogComponent {
 
-  public dataSource: MatTableDataSource<LogSupport>;
-  public displayedColumns: string[] = 
-  ['Fecha/Hora', 'Asesor', 'Codigo', 
-  'Razon Social', 'Contacto', 'Telefono', 
-  'Tipo De Soporte', 'Estado', 'Ver'];
+  dataSource: MatTableDataSource<LogSupport>;
+  displayedColumns: string[] =
+    ['Fecha/Hora', 'Asesor', 'Codigo',
+      'Razon Social', 'Contacto', 'Telefono',
+      'Tipo De Soporte', 'Estado', 'Ver'];
+  subscriptions: Array<Subscription> = new Array();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -29,20 +31,26 @@ export class TablaLlamadaLogComponent {
     private logSupportService: LogsSupportService
   ) { }
 
-  public updateTable(logSupports: LogSupport[]) {
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
+  updateTable(logSupports: LogSupport[]) {
     this.dataSource = new MatTableDataSource(logSupports);
     this.dataSource.paginator = this.paginator;
   }
 
-  public filterTable(value: string) {
+  filterTable(value: string) {
     this.dataSource.filter = value;
   }
 
-  public formatDate(fecha: Date) {
+  formatDate(fecha: Date) {
     return formatDate(fecha, 'dd/MM/yyy hh:mm:ss', 'en-ES');
   }
 
-  public deleteById(id: number) {
+  deleteById(id: number) {
     this.matSnackBar.open('No esta autorizado para realizar esta operacion', '', {
       duration: 1500,
       horizontalPosition: 'center',
@@ -50,14 +58,16 @@ export class TablaLlamadaLogComponent {
     })
   }
 
-  public viewDatails(id: number) {
-    this.logSupportService.buscarLogById(id).subscribe((logEncontrado) => {
-      this.matDialog.open(DialogLlamadaLogComponent, {
-        width: '100%',
-        height: '90%',
-        data: logEncontrado,
-      });
-    });
+  viewDatails(id: number) {
+    this.subscriptions.push(
+      this.logSupportService.buscarLogById(id).subscribe((logEncontrado) => {
+        this.matDialog.open(DialogLlamadaLogComponent, {
+          width: '100%',
+          height: '90%',
+          data: logEncontrado,
+        })
+      })
+    );
   }
-  
+
 }

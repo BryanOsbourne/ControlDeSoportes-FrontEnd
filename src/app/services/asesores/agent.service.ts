@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Agent } from 'src/app/core/models/agent';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,25 +11,33 @@ import { Agent } from 'src/app/core/models/agent';
 
 export class AgentService {
 
-  private URL_BASE_AUTHENTICATION = "http://localhost:8080/v1/app-ticket-trace/authentication";
-  private URL_BASE_AGENT = "http://localhost:8080/v1/app-ticket-trace/agents";
+  URL_BASE_AUTHENTICATION = "/authentication";
+  URL_BASE_AGENT = "/agents";
 
   constructor(private httpClient: HttpClient) { }
 
-  public findAll(): Observable<Agent[]> {
-    return this.httpClient.get<Agent[]>(this.URL_BASE_AGENT + '/findAll');
+  findAll(): Observable<Agent[]> {
+    return this.httpClient.get<Agent[]>(environment.urlBase + this.URL_BASE_AGENT + '/findAll');
   }
 
-  public findActives(): Observable<Agent[]> {
-    return this.httpClient.get<Agent[]>(this.URL_BASE_AGENT + '/findActives');
+  findActives(): Observable<Agent[]> {
+    return this.httpClient.get<Agent[]>(environment.urlBase + this.URL_BASE_AGENT + '/findActives');
   }
 
-  public save(asesor: Agent) {
-    return this.httpClient.post<Agent>(this.URL_BASE_AUTHENTICATION + '/create', asesor);
+  save(asesor: Agent) {
+    return this.httpClient.post<Agent>(environment.urlBase + this.URL_BASE_AUTHENTICATION + '/create', asesor);
   }
 
-  public findById(id: number): Observable<Agent> {
-    return this.httpClient.get<Agent>(this.URL_BASE_AGENT + '/findById?id=' + id);
+  findById(id: number): Observable<Agent> {
+    return this.httpClient.get<Agent>(environment.urlBase + this.URL_BASE_AGENT + '/findById?id=' + id);
+  }
+
+  uploadUSerPhoto(formData: FormData, id: number): Observable<any> {
+    return this.httpClient.post(environment.urlBase + this.URL_BASE_AGENT + '/upload', formData, {
+      params: {
+        agentId: id
+      }
+    });
   }
 
 }

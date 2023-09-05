@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AgentService } from 'src/app/services/asesores/agent.service';
 
 @Component({
@@ -10,22 +11,31 @@ export class TabAsesoresComponent {
 
   @Output() filterField = new EventEmitter<string>();
   @Output() refresh = new EventEmitter<any>();
+  subscriptions: Array<Subscription> = new Array();
 
   constructor(private agentService: AgentService) { }
 
-  public ngOnInit(): void {
+  ngOnInit() {
     this.updateTable();
   }
 
-  public agentFilter(event: Event) {
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
+  agentFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterField.emit(filterValue.trim().toLowerCase());
   }
 
-  public updateTable() {
-    this.agentService.findAll().subscribe((asesoresObtenidos) => {
-      this.refresh.emit(asesoresObtenidos);
-    });
+  updateTable() {
+    this.subscriptions.push(
+      this.agentService.findAll().subscribe((asesoresObtenidos) => {
+        this.refresh.emit(asesoresObtenidos)
+      })
+    );
   }
-  
+
 }

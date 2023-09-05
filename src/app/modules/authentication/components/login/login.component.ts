@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AuthenticationRequest } from 'src/app/core/models/authenticationRequest';
+import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
-
 
 @Component({
   selector: 'app-login',
@@ -14,8 +13,9 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 
 export class LoginComponent implements OnInit {
 
-  public isLogged = false;
-  public formGroup: FormGroup;
+  isLogged = false;
+  formGroup: FormGroup;
+  subscriptions: Array<Subscription> = new Array();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,39 +24,46 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formInit();
   }
 
-  private formInit() {
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
+  formInit() {
     this.formGroup = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     })
   }
-
-  public login() {
-    this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
-      this.authenticationService.setToken(AuthenticationResponse);
-      this.loading();
-    },
-      (error) => {
-        console.log(error)
-        this.error();
-        this.formGroup.reset();
-      })
+  
+  login() {
+    this.subscriptions.push(
+      this.authenticationService.login(this.formGroup.value).subscribe((AuthenticationResponse) => {
+        this.authenticationService.setToken(AuthenticationResponse);
+        this.loading();
+      },
+         () => {
+          this.error();
+          this.formGroup.reset();
+        })
+    );
   }
-
-  private loading() {
+  
+  loading() {
     this.isLogged = true;
     setTimeout(() => {
       this.router.navigate(['Dashboard']);
       this.isLogged = false;
       this.formGroup.reset();
-    }, 1500);
+    }, 1000);
   }
 
-  private error(): void {
+  error(): void {
     this.matSnackBar.open('Usuario y/o Contraseña Invalido', '', {
       duration: 5000,
       horizontalPosition: 'center',

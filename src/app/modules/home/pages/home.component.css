@@ -5,10 +5,14 @@
  }
  
  .card {
-    background-image: url("https://material.angular.io/assets/img/examples/shiba2.jpg");
     margin: 30px;
     width: 200px;
     height: 230px;
+    justify-content: center;
+ }
+
+ .card img{
+   height: 85%;
  }
  
  .card:hover {

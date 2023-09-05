@@ -14,7 +14,7 @@ export class AuthenticationGuard implements CanActivate {
     private router: Router
   ) { }
 
-  public canActivate(
+  canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 

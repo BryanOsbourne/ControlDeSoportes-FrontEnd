@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Customer } from 'src/app/core/models/customer';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,24 +10,24 @@ import { Customer } from 'src/app/core/models/customer';
 
 export class CustomerService {
 
-  private URL_BASE = "http://localhost:8080/v1/app-ticket-trace/customers";
+  URL_BASE = "/customers";
 
   constructor(private httpClient: HttpClient) { }
 
-  public findAll(): Observable<Customer[]> {
-    return this.httpClient.get<Customer[]>(this.URL_BASE + '/findAll');
+  findAll(): Observable<Customer[]> {
+    return this.httpClient.get<Customer[]>(environment.urlBase + this.URL_BASE + '/findAll');
   }
 
-  public findByCodigo(codigo: number): Observable<Customer> {
-    return this.httpClient.get<Customer>(this.URL_BASE + '/findByCodigo?codigo='+ codigo);
+  findByCodigo(codigo: number): Observable<Customer> {
+    return this.httpClient.get<Customer>(environment.urlBase + this.URL_BASE + '/findByCodigo?codigo=' + codigo);
   }
 
-  public saveCustomer(cliente: Customer) {
-    return this.httpClient.post(this.URL_BASE + '/save', cliente);
+  saveCustomer(cliente: Customer) {
+    return this.httpClient.post(environment.urlBase + this.URL_BASE + '/save', cliente);
   }
 
-  public findCustomerActive(): Observable<Customer[]> {
-    return this.httpClient.get<Customer[]>(this.URL_BASE + '/findActives');
+  findCustomerActive(): Observable<Customer[]> {
+    return this.httpClient.get<Customer[]>(environment.urlBase + this.URL_BASE + '/findActives');
   }
 
 }

@@ -14,7 +14,7 @@ export class DialogLlamadaLogComponent {
     @Inject(MAT_DIALOG_DATA) public logSupport: any
   ) { }
 
-  public onNoClick() {
+  onNoClick() {
     this.dialogRef.close();
   }
 

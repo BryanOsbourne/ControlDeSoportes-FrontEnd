@@ -1,5 +1,5 @@
 <div class="mat-elevation-z10 mt-4">
-    
+
     <table mat-table [dataSource]="dataSource">
 
         <ng-container matColumnDef="Codigo">
@@ -55,13 +55,13 @@
                 <div class="row">
                     <div class="col-6">
                         <a [routerLink]="['EditarCliente', cliente.codigo]" matTooltip="Editar Cliente">
-                            <img class="icono" src="../../../../../assets/icons/pencil.png" alt="pencil.png">
+                            <img class="btn-icon" src="../../../../../assets/icons/pencil.png" alt="pencil.png">
                         </a>
                     </div>
                     <div class="col-6">
-                        <button mat-mini-fab matTooltip="Eliminar Cliente" (click)="deleteCustomer(cliente.codigo)">
-                            <img class="icono" src="../../../../../assets/icons/basura.png" alt="basura.png">
-                        </button>
+                        <a (click)="deleteCustomer(cliente.codigo)" matTooltip="Eliminar Cliente">
+                            <img class="btn-icon" src="../../../../../assets/icons/basura.png" alt="basura.png">
+                        </a>
                     </div>
                 </div>
             </td>

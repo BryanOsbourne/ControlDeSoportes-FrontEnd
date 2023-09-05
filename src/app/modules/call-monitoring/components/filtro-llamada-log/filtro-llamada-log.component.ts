@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Agent } from 'src/app/core/models/agent';
 import { LogSupport } from 'src/app/core/models/logSupport';
 import { AgentService } from 'src/app/services/asesores/agent.service';
@@ -14,9 +15,10 @@ import { LogsSupportService } from 'src/app/services/llamadalog/logSupport.servi
 
 export class FiltroLlamadaLogComponent implements OnInit {
 
-  private id: number;
-  public formGroup: FormGroup;
-  public agents: Agent[];
+  id: number;
+  formGroup: FormGroup;
+  agents: Agent[];
+  subscriptions: Array<Subscription> = new Array();
 
   @Output() llamadasFiltradas = new EventEmitter<LogSupport[]>();
   @Output() campoDeFiltro = new EventEmitter<string>();
@@ -27,7 +29,7 @@ export class FiltroLlamadaLogComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private agentService: AgentService) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formInit();
     this.loadAgents();
     this.activatedRoute.params.subscribe(params => {
@@ -36,7 +38,13 @@ export class FiltroLlamadaLogComponent implements OnInit {
     });
   }
 
-  private formInit() {
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
+  formInit() {
     this.formGroup = this.formBuilder.group({
       startDate: [new Date(), Validators.required],
       endDate: [new Date(), Validators.required],
@@ -44,25 +52,31 @@ export class FiltroLlamadaLogComponent implements OnInit {
     })
   }
 
-  private loadAgents() {
-    this.agentService.findActives().subscribe(agents => {
-      this.agents = agents;
-    })
+  loadAgents() {
+    this.subscriptions.push(
+      this.agentService.findActives().subscribe(agents => {
+        this.agents = agents;
+      })
+    );
   }
 
-  private findLogSupportById(supportId: number) {
-    this.logsSupportService.fingLogByIdSupport(supportId).subscribe(logSupports => {
-      this.llamadasFiltradas.emit(logSupports);
-    });
+  findLogSupportById(supportId: number) {
+    this.subscriptions.push(
+      this.logsSupportService.fingLogByIdSupport(supportId).subscribe(logSupports => {
+        this.llamadasFiltradas.emit(logSupports);
+      })
+    );
   }
 
-  public findByCriterias() {
-    this.logsSupportService.findByCriterias(this.getCriterias()).subscribe((logs) => {
-      this.llamadasFiltradas.emit(logs);
-    });
+  findByCriterias() {
+    this.subscriptions.push(
+      this.logsSupportService.findByCriterias(this.getCriterias()).subscribe((logs) => {
+        this.llamadasFiltradas.emit(logs);
+      })
+    );
   }
 
-  private getCriterias() {
+  getCriterias() {
     const criterias = {
       agentId: this.formGroup.value.agent,
       supportId: this.id,
@@ -72,7 +86,7 @@ export class FiltroLlamadaLogComponent implements OnInit {
     return criterias;
   }
 
-  public filterSupport(event: Event) {
+  filterSupport(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.campoDeFiltro.emit(filterValue.trim().toLowerCase());
   }

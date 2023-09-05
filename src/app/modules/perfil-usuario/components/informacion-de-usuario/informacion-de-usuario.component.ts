@@ -4,7 +4,9 @@ import { Agent } from 'src/app/core/models/agent';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ArchivoService } from 'src/app/services/archivos/archivo.service';
+import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
+import { AgentService } from 'src/app/services/asesores/agent.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-informacion-de-usuario',
@@ -13,30 +15,37 @@ import { ArchivoService } from 'src/app/services/archivos/archivo.service';
 })
 export class InformacionDeUsuarioComponent implements OnInit {
 
-  public formGroup: FormGroup;
-  public agentConnected: Agent;
-  public isBlocked = false;
-  private formData = new FormData();
+  formGroup: FormGroup;
+  agentConnected: Agent;
+  isBlocked = false;
+  formData = new FormData();
+  subscriptions: Array<Subscription> = new Array();
 
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
-    private archivoService: ArchivoService,
+    private agentService: AgentService,
     private matSnackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialogsService: DialogsService
   ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.loadUserData();
   }
 
-  private loadUserData() {
-    this.agentConnected = this.authenticationService.getUserToken();
-    this.formInit();
-
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
   }
 
-  private formInit() {
+  loadUserData() {
+    this.agentConnected = this.authenticationService.getUserToken();
+    this.formInit();
+  }
+
+  formInit() {
     this.formGroup = this.formBuilder.group({
       id: [this.agentConnected.id, Validators.required],
       username: [this.agentConnected.username, Validators.required],
@@ -55,30 +64,36 @@ export class InformacionDeUsuarioComponent implements OnInit {
     });
   }
 
-  public unlockForm() {
+  unlockForm() {
     this.isBlocked = !this.isBlocked;
   }
 
-  //TODO: Cuando se desea guardar los datos sin imagen genera error
-  public saveData() {
+  openConfirmedDialog() {
+    this.dialogsService.confirmationDialog().then((confirmed) => {
+      if (confirmed) {
+        this.saveData();
+      }
+    });
+  }
+
+  saveData() {
     if (this.matchPassword()) {
-      this.archivoService.uploadUSerPhoto(this.formData).subscribe((response) => {
-        this.formGroup.value.photo = response.url;
-        this.formGroup.value.state = this.formGroup.value.state === 'Activo' ? true : false;
-        this.authenticationService.updateProfile(this.formGroup.value).subscribe(() => {
-          this.matSnackBar.open('Asesor Registrado Exitosamente', '', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom'
-          })
-          this.authenticationService.logout();
-          this.router.navigate(['login']);
-        })
-      });
+      this.formGroup.value.state = this.formGroup.value.state === 'Activo' ? true : false;
+      this.subscriptions.push(
+        this.authenticationService.updateProfile(this.formGroup.value).subscribe((agent) => {
+          if (agent) {
+            this.dialogsService.saveDialog();
+            this.authenticationService.logout();
+            this.router.navigate(['login']);
+          } else {
+            this.dialogsService.errorDialog();
+          }
+        }, () => this.dialogsService.errorDialog())
+      );
     }
   }
 
-  private matchPassword() {
+  matchPassword() {
     const password1 = this.formGroup.get('password')?.value;
     const password2 = this.formGroup.get('password2')?.value;
     if (password1 != password2) {
@@ -92,11 +107,20 @@ export class InformacionDeUsuarioComponent implements OnInit {
     return true;
   }
 
-  public onFileSelected(event: Event) {
+  onFileSelected(event: Event) {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
       this.formData.append('file', fileInput.files[0]);
-    };
+      this.subscriptions.push(
+        this.agentService.uploadUSerPhoto(this.formData, this.agentConnected.id).subscribe((response) => {
+          if (response) {
+            this.dialogsService.saveDialog();
+            this.authenticationService.logout();
+            this.router.navigate(['login']);
+          }
+        })
+      );
+    }
   }
 
 }

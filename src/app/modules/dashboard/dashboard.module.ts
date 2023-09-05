@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
 
 @NgModule({
@@ -13,7 +12,6 @@ import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
     DashboardComponent,
     SidenavComponent,
     NavbarComponent,
-    FooterComponent,
     MenuBarComponent,
   ],
   imports: [

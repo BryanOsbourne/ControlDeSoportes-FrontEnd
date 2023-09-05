@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CustomerService } from 'src/app/services/clients/customer.service';
 
 @Component({
@@ -10,22 +11,30 @@ export class TabClientesComponent implements OnInit {
 
   @Output() filterField = new EventEmitter<string>();
   @Output() refresh = new EventEmitter<any>();
+  subscriptions: Array<Subscription> = new Array();
 
   constructor(private customerService: CustomerService) { }
 
-  public ngOnInit(): void {
+  ngOnInit() {
     this.updateTable();
   }
 
-  public customerFilterField(event: Event) {
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
+  customerFilterField(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterField.emit(filterValue.trim().toLowerCase());
   }
 
-  public updateTable() {
-    this.customerService.findAll().subscribe((customers) => {
-      this.refresh.emit(customers);
-    }
+  updateTable() {
+    this.subscriptions.push(
+      this.customerService.findAll().subscribe((customers) => {
+        this.refresh.emit(customers)
+      })
     );
   }
 

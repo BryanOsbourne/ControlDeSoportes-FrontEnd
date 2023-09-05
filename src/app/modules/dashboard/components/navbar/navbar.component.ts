@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
+import { DialogsService } from 'src/app/services/dialogs/dialogs.service';
 
 
 @Component({
@@ -10,20 +11,26 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class NavbarComponent {
 
-  public notifications: number = 20;
+  notifications: number = 20;
   @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router) { }
+    private router: Router,
+    private dialogService: DialogsService
+  ) { }
 
-  public toggleSideBar() {
+  toggleSideBar() {
     this.toggleSideBarForMe.emit();
   }
 
-  public logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['login']);
+  logout() {
+    this.dialogService.confirmationDialog().then((confirmed) => {
+      if (confirmed) {
+        this.authenticationService.logout();
+        this.router.navigate(['login']);
+      }
+    });
   }
 
 }

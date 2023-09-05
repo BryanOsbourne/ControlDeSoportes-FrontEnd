@@ -7,7 +7,7 @@ export class MenuService {
 
   constructor() { }
 
-  public cargarSideNav() {
+  cargarSideNav() {
     return [
       {
         header: 'Inicio',

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { Agent } from 'src/app/core/models/agent';
 import { Customer } from 'src/app/core/models/customer';
 import { Support } from 'src/app/core/models/support';
@@ -15,10 +16,11 @@ import { ReportService } from 'src/app/services/reportes/report.service';
 })
 export class FiltroDeReporteDeLlamadasComponent {
 
-  public formGroup: FormGroup;
-  public agents: Agent[];
-  public customers: Customer[];
-  public supports: Support[];
+  formGroup: FormGroup;
+  agents: Agent[];
+  customers: Customer[];
+  supports: Support[];
+  subscriptions: Array<Subscription> = new Array();
 
   @Output() supportsFilter = new EventEmitter<Support[]>();
 
@@ -30,13 +32,19 @@ export class FiltroDeReporteDeLlamadasComponent {
     private reportService: ReportService) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formInit();
     this.loadAgents();
     this.loadCustomers();
   }
 
-  private formInit() {
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+
+  formInit() {
     this.formGroup = this.formBuilder.group({
       startDate: [new Date()],
       endDate: [new Date()],
@@ -49,25 +57,31 @@ export class FiltroDeReporteDeLlamadasComponent {
     })
   }
 
-  private loadAgents() {
-    this.agentService.findActives().subscribe((agentActives) => {
-      this.agents = agentActives;
-    })
+  loadAgents() {
+    this.subscriptions.push(
+      this.agentService.findActives().subscribe((agentActives) => {
+        this.agents = agentActives;
+      })
+    );
   }
 
-  private loadCustomers() {
-    this.customerService.findCustomerActive().subscribe((customerActives) => {
-      this.customers = customerActives;
-    })
+  loadCustomers() {
+    this.subscriptions.push(
+      this.customerService.findCustomerActive().subscribe((customerActives) => {
+        this.customers = customerActives;
+      })
+    );
   }
 
-  public generateQuery() {
-    this.supportService.findByCriteria(this.getCriteria()).subscribe((supports) => {
-      this.supportsFilter.emit(supports);
-    });
+  generateQuery() {
+    this.subscriptions.push(
+      this.supportService.findByCriteria(this.getCriteria()).subscribe((supports) => {
+        this.supportsFilter.emit(supports)
+      })
+    );
   }
 
-  private getCriteria() {
+  getCriteria() {
     const criterias = {
       agentId: this.formGroup.value.agent,
       customerId: this.formGroup.value.customer,
@@ -79,10 +93,12 @@ export class FiltroDeReporteDeLlamadasComponent {
     return criterias;
   }
 
-  public downloadExcel() {
-    this.reportService.getReport(this.getCriteria()).subscribe((response) => {
-      this.reportService.manageExcelFile(response, "Soportes")
-    });
+  downloadExcel() {
+    this.subscriptions.push(
+      this.reportService.getReport(this.getCriteria()).subscribe((response) => {
+        this.reportService.manageExcelFile(response, "Soportes")
+      })
+    );
   }
-  
+
 }

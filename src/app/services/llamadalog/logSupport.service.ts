@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LogSupport } from 'src/app/core/models/logSupport';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,19 +10,19 @@ import { LogSupport } from 'src/app/core/models/logSupport';
 
 export class LogsSupportService {
 
-  private URL_BASE_AUTHENTICATION = "http://localhost:8080/v1/app-ticket-trace/log-supports";
+  URL_BASE_AUTHENTICATION = "/log-supports";
 
   constructor(private httpClient: HttpClient) { }
 
-  public buscarLogById(id: number): Observable<LogSupport> {
-    return this.httpClient.get<LogSupport>(this.URL_BASE_AUTHENTICATION + '/findById?id=' + id);
+  buscarLogById(id: number): Observable<LogSupport> {
+    return this.httpClient.get<LogSupport>(environment.urlBase + this.URL_BASE_AUTHENTICATION + '/findById?id=' + id);
   }
 
-  public fingLogByIdSupport(id: number): Observable<LogSupport[]> {
-    return this.httpClient.get<LogSupport[]>(this.URL_BASE_AUTHENTICATION + '/findAllBySupportId?supportId=' + id);
+  fingLogByIdSupport(id: number): Observable<LogSupport[]> {
+    return this.httpClient.get<LogSupport[]>(environment.urlBase + this.URL_BASE_AUTHENTICATION + '/findAllBySupportId?supportId=' + id);
   }
 
-  public findByCriterias(criterias: any): Observable<LogSupport[]> {
+  findByCriterias(criterias: any): Observable<LogSupport[]> {
     const params = {
       params: {
         agentId: criterias.agentId,
@@ -30,7 +31,7 @@ export class LogsSupportService {
         endDate: criterias.endDate
       }
     };
-    return this.httpClient.get<LogSupport[]>(this.URL_BASE_AUTHENTICATION + '/findByCriterias', params);
+    return this.httpClient.get<LogSupport[]>(environment.urlBase + this.URL_BASE_AUTHENTICATION + '/findByCriterias', params);
   }
 
 }

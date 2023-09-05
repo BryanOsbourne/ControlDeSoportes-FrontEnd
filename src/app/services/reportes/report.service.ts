@@ -1,20 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
 
-  private URL_BASE = "http://localhost:8080/v1/app-ticket-trace/reports";
+  URL_BASE = "/reports";
 
   constructor(private httpClient: HttpClient) { }
 
-  public getReport(parametros: any): Observable<any> {
+  getReport(parametros: any): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.httpClient.get(
-      this.URL_BASE + '/export-supports',
+      environment.urlBase + this.URL_BASE + '/export-supports',
       {
         headers,
         responseType: 'blob' as 'json',
@@ -22,7 +23,7 @@ export class ReportService {
       });
   }
 
-  public manageExcelFile(response: any, fileName: string) {
+  manageExcelFile(response: any, fileName: string) {
     debugger;
     const dataType = response.type;
     const binaryData = []

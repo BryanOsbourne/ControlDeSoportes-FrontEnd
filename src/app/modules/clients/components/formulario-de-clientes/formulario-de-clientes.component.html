@@ -4,12 +4,12 @@
         <mat-card-subtitle></mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <form class="row" [formGroup]="formGroup" (ngSubmit)="openConfirmationDialog()">
+        <form class="row" [formGroup]="formGroup" (ngSubmit)="openConfirmedDialog()">
             <input type="hidden" formControlName="id">
             <div class="col-xl-3">
                 <mat-form-field appearance="outline">
                     <mat-label>Codigo</mat-label>
-                    <input type="number" matInput autocomplete="off" formControlName="codigo">
+                    <input type="number" matInput autocomplete="off" formControlName="codigo" min="0">
                 </mat-form-field>
             </div>
             <div class="col-xl-3">
@@ -54,13 +54,13 @@
             <div class="col-xl-3">
                 <mat-form-field appearance="outline">
                     <mat-label>Numero Identificacion</mat-label>
-                    <input type="number" matInput autocomplete="off" formControlName="ccNit">
+                    <input type="number" matInput autocomplete="off" formControlName="ccNit" min="0">
                 </mat-form-field>
             </div>
             <div class="col-xl-8">
                 <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
-                    <input matInput autocomplete="off" formControlName="email">
+                    <input type="email" matInput autocomplete="off" formControlName="email">
                 </mat-form-field>
             </div>
             <div class="col-xl-2">
