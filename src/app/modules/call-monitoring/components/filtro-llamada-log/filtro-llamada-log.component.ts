@@ -80,8 +80,8 @@ export class FiltroLlamadaLogComponent implements OnInit {
     const criterias = {
       agentId: this.formGroup.value.agent,
       supportId: this.id,
-      startDate: this.formGroup.value.startDate.toISOString().substring(0, 10) + ' 00:00:01',
-      endDate: this.formGroup.value.endDate.toISOString().substring(0, 10) + ' 23:59:59'
+      startDate: this.formGroup.value.startDate.toISOString().substring(0, 10),
+      endDate: this.formGroup.value.endDate.toISOString().substring(0, 10)
     }
     return criterias;
   }
