@@ -59,7 +59,21 @@ export class FormularioDeAsesoresComponent implements OnInit {
     if (id) {
       this.subscriptions.push(
         this.agentService.findById(id).subscribe((agent) => {
-          this.formGroup.setValue(agent);
+          this.formGroup.setValue({
+            id : agent.id,
+            username : agent.username,
+            password : agent.password,
+            firstName : agent.firstName,
+            secondName : agent.secondName,
+            lastName : agent.lastName,
+            secondSurname : agent.secondSurname,
+            idType : agent.idType,
+            ccNit : agent.ccNit,
+            email : agent.email,
+            state : agent.state,
+            role : agent.role,
+            photo : agent.photo
+          });
         })
       );
     }
