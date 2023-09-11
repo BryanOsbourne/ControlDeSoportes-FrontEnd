@@ -51,9 +51,7 @@ export class FiltroDeReporteDeLlamadasComponent {
       supportType: [],
       state: [''],
       agent: [0],
-      customer: [0],
-      startTime: ['00:00'],
-      endTime: ['23:59']
+      customer: [0]
     })
   }
 
@@ -87,8 +85,8 @@ export class FiltroDeReporteDeLlamadasComponent {
       customerId: this.formGroup.value.customer,
       state: this.formGroup.value.state,
       supportType: this.formGroup.value.supportType,
-      startDate: this.formGroup.value.startDate.toISOString().substring(0, 10) + ' ' + this.formGroup.value.startTime + ':01',
-      endDate: this.formGroup.value.endDate.toISOString().substring(0, 10) + ' ' + this.formGroup.value.endTime + ':59',
+      startDate: this.formGroup.value.startDate.toISOString().substring(0, 10),
+      endDate: this.formGroup.value.endDate.toISOString().substring(0, 10),
     }
     return criterias;
   }

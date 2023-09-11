@@ -10,6 +10,6 @@ export interface Agent {
    ccNit: string;
    email: string;
    state: boolean;
-   role : string;
-   photo : string;
+   role: string;
+   photo: string;
 }
