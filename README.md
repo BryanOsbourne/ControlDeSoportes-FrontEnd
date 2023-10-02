@@ -1,3 +1,6 @@
+# Si deseas observar ver el proyecto puedes dirigirte a https://ticket-trace.onrender.com/ 
+# Usuario: Invitado Password: 12345
+
 # TicketTrace
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.4.
